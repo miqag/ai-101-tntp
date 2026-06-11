@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 101 | A Field Guide for Education Consultants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0C2340;
+  --navy-deep:#081a30;
+  --orange:#E85D26;
+  --orange-soft:#F4854F;
+  --teal:#1A6B8A;
+  --teal-light:#5FA8C4;
+  --paper:#F7F5F0;
+  --paper-dim:#EFEBE3;
+  --ink:#22272E;
+  --winter:#8C97A3;
+  --winter-bg:#E3E7EB;
+  --white:#FFFFFF;
+  --serif:'DM Serif Display',Georgia,serif;
+  --sans:'Inter',-apple-system,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.6;overflow-x:hidden}
+h1,h2,h3,.serif{font-family:var(--serif);font-weight:400;line-height:1.12}
+img{max-width:100%}
+a{color:var(--teal)}
+::selection{background:var(--orange);color:#fff}
+
+/* ---------- shared ---------- */
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+.eyebrow{font-family:var(--sans);font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:14px}
+.eyebrow.on-dark{color:var(--orange-soft)}
+.section-title{font-size:clamp(2rem,4.4vw,3.2rem);margin-bottom:18px}
+.lede{font-size:clamp(1.05rem,1.6vw,1.25rem);max-width:680px;color:#444c56}
+.on-dark .lede,.lede.on-dark{color:#C7D0DB}
+section{position:relative}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.reveal.vis{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;transition:none}
+  *{animation:none!important;transition-duration:.01ms!important}
+}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:4px}
+
+/* ---------- progress nav ---------- */
+#prognav{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(12,35,64,.12);z-index:90}
+#progbar{height:100%;width:0;background:var(--orange);transition:width .1s linear}
+#sectnav{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:90;display:flex;flex-direction:column;gap:12px}
+#sectnav a{width:10px;height:10px;border-radius:50%;background:rgba(12,35,64,.25);display:block;transition:all .25s}
+#sectnav a.active{background:var(--orange);transform:scale(1.4)}
+#sectnav a span{position:absolute;right:22px;top:50%;transform:translateY(-50%);background:var(--navy);color:#fff;font-size:.7rem;font-weight:600;padding:4px 10px;border-radius:4px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
+#sectnav a{position:relative}
+#sectnav a:hover span,#sectnav a:focus span{opacity:1}
+@media(max-width:760px){#sectnav{display:none}}
+
+/* ---------- hero ---------- */
+#hero{min-height:100vh;background:var(--navy);color:#fff;display:flex;align-items:center;position:relative;overflow:hidden}
+#hero .wrap{position:relative;z-index:2;padding-top:80px;padding-bottom:80px}
+#hero h1{font-size:clamp(2.6rem,6.5vw,5.2rem);margin:18px 0 22px;max-width:14ch}
+#hero h1 em{font-style:italic;color:var(--orange-soft)}
+#hero .lede{color:#C7D0DB;max-width:560px}
+.hero-meta{margin-top:46px;display:flex;gap:34px;flex-wrap:wrap;font-size:.85rem;color:#8FA0B3}
+.hero-meta strong{display:block;color:#fff;font-size:1rem;margin-bottom:2px}
+.scroll-cue{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);color:#8FA0B3;font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;text-align:center;z-index:2}
+.scroll-cue::after{content:"";display:block;width:1px;height:42px;background:linear-gradient(var(--orange),transparent);margin:10px auto 0;animation:drip 2s ease infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at 30% 40%,black 0%,transparent 70%)}
+.hero-pulse{position:absolute;border-radius:50%;border:1px solid rgba(232,93,38,.4);animation:hpulse 5s ease-out infinite}
+@keyframes hpulse{0%{transform:scale(.2);opacity:.9}100%{transform:scale(1);opacity:0}}
+.cta{display:inline-flex;align-items:center;gap:12px;margin-top:44px;background:var(--orange);color:#fff;text-decoration:none;font-weight:800;font-size:1rem;letter-spacing:.04em;padding:17px 34px;border-radius:999px;transition:transform .25s,box-shadow .25s,background .25s;box-shadow:0 10px 30px rgba(232,93,38,.35)}
+.cta:hover{background:var(--orange-soft);transform:translateY(-3px);box-shadow:0 16px 40px rgba(232,93,38,.45)}
+.cta-arrow{display:inline-block;animation:ctabob 1.8s ease-in-out infinite}
+@keyframes ctabob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+
+/* ---------- gateway entry scene ---------- */
+#gateway{height:340vh;background:var(--navy-deep);position:relative}
+.gw-sticky{position:sticky;top:0;height:100vh;overflow:hidden}
+#gwcanvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.gw-beat{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 28px;opacity:0;pointer-events:none;transition:opacity .3s linear;will-change:opacity}
+.gw-beat p{font-family:var(--serif);font-size:clamp(1.7rem,4.4vw,3.2rem);color:#fff;max-width:24ch;line-height:1.25;text-shadow:0 2px 30px rgba(8,26,48,.9)}
+.gw-em{display:block;color:var(--orange-soft);font-style:italic;margin-top:.2em}
+.gw-final{color:var(--orange)!important;font-style:italic}
+.gw-vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,rgba(8,26,48,.75) 100%)}
+#gateway.gw-static{height:auto;padding:90px 0}
+#gateway.gw-static .gw-sticky{position:relative;height:auto;min-height:70vh}
+#gateway.gw-static .gw-beat{position:relative;inset:auto;opacity:1;padding:26px 28px}
+
+/* ---------- timeline ---------- */
+#timeline{background:var(--paper)}
+.tl-intro{padding:110px 0 60px}
+.tl-rail{position:relative}
+.tl-rail::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;background:#cfd6dd;transform:translateX(-50%)}
+.tl-item{position:relative;padding:0 0 26px;display:grid;grid-template-columns:1fr 64px 1fr;align-items:start}
+.tl-item .tl-card{grid-column:3;padding-right:0;text-align:left;max-width:430px}
+.tl-item:nth-child(even) .tl-card{grid-column:1;justify-self:end;text-align:right}
+.tl-node{grid-column:2;grid-row:1;justify-self:center;width:18px;height:18px;border-radius:50%;background:var(--winter);border:4px solid var(--paper);box-shadow:0 0 0 2px #cfd6dd;margin-top:6px;transition:all .5s;position:relative;z-index:2}
+.tl-year{font-family:var(--serif);font-size:1.5rem;color:var(--winter);transition:color .5s}
+.tl-card h3{font-size:1.3rem;margin:2px 0 6px;color:#5d6772;transition:color .5s}
+.tl-card p{font-size:.95rem;color:#6a7480;max-width:46ch;transition:color .5s}
+.tl-item:nth-child(even) .tl-card p{margin-left:auto}
+/* era: compressed early years */
+.tl-item.era-early{padding-bottom:18px}
+.tl-item.era-early .tl-card h3{font-size:1.15rem}
+.tl-item.era-early .tl-card p{font-size:.88rem}
+/* era: winter */
+.tl-winterband{background:var(--winter-bg);padding:54px 0;margin:8px 0;position:relative}
+.tl-winterband .tl-rail::before{background:#aeb8c2}
+.tl-winterband .frost{position:absolute;inset:0;background:repeating-linear-gradient(115deg,transparent,transparent 38px,rgba(140,151,163,.08) 38px,rgba(140,151,163,.08) 40px);pointer-events:none}
+/* activated state: warmth returns */
+.tl-item.vis .tl-node{background:var(--teal);box-shadow:0 0 0 2px var(--teal)}
+.tl-item.vis .tl-year{color:var(--teal)}
+.tl-item.vis .tl-card h3{color:var(--navy)}
+.tl-item.vis .tl-card p{color:#444c56}
+/* modern era: orange takes over, generous space */
+.tl-item.era-modern{padding:9vh 0}
+.tl-item.era-modern .tl-card h3{font-size:1.7rem}
+.tl-item.era-modern .tl-card p{font-size:1.05rem}
+.tl-item.era-modern .tl-year{font-size:2rem}
+.tl-item.era-modern.vis .tl-node{background:var(--orange);box-shadow:0 0 0 2px var(--orange)}
+.tl-item.era-modern.vis .tl-node::after{content:"";position:absolute;inset:-12px;border-radius:50%;border:2px solid rgba(232,93,38,.45);animation:nodepulse 2.2s ease-out infinite}
+@keyframes nodepulse{0%{transform:scale(.5);opacity:1}100%{transform:scale(1.5);opacity:0}}
+.tl-item.era-modern.vis .tl-year{color:var(--orange)}
+.tl-tag{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:rgba(26,107,138,.12);color:var(--teal);margin-bottom:8px}
+.era-modern .tl-tag{background:rgba(232,93,38,.12);color:var(--orange)}
+.era-note{text-align:center;padding:30px 20px 56px;color:var(--winter);font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+.era-note.warm{color:var(--orange)}
+@media(max-width:760px){
+  .tl-rail::before{left:22px}
+  .tl-item{grid-template-columns:44px 1fr}
+  .tl-item .tl-card,.tl-item:nth-child(even) .tl-card{grid-column:2;text-align:left;justify-self:start}
+  .tl-item:nth-child(even) .tl-card p{margin-left:0}
+  .tl-node{grid-column:1}
+}
+
+/* ---------- openclaw set piece ---------- */
+#openclaw{background:var(--navy-deep);color:#fff;padding:14vh 0;overflow:hidden;position:relative}
+#openclaw .glow{position:absolute;width:680px;height:680px;border-radius:50%;background:radial-gradient(circle,rgba(232,93,38,.22),transparent 65%);top:-200px;right:-180px;pointer-events:none}
+.oc-kicker{color:var(--orange-soft);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.8rem}
+#openclaw h2{font-size:clamp(2.2rem,5vw,3.8rem);margin:14px 0 10px}
+.oc-sub{color:#9FB0C2;max-width:640px;font-size:1.08rem}
+.star-counter{font-family:var(--serif);font-size:clamp(4rem,11vw,8.5rem);color:var(--orange);line-height:1;margin:6vh 0 4px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.star-label{color:#9FB0C2;font-size:.95rem;margin-bottom:6vh}
+.oc-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:2px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);border-radius:12px;overflow:hidden}
+.oc-stat{background:var(--navy);padding:24px 22px}
+.oc-stat strong{display:block;font-family:var(--serif);font-size:1.7rem;color:#fff;margin-bottom:4px}
+.oc-stat span{font-size:.85rem;color:#9FB0C2}
+.oc-feed{margin-top:7vh;border-left:2px solid rgba(232,93,38,.5);padding-left:26px;display:flex;flex-direction:column;gap:20px;max-width:620px}
+.oc-line{opacity:0;transform:translateX(-12px);transition:opacity .5s,transform .5s}
+.oc-line.vis{opacity:1;transform:none}
+.oc-line .d{font-size:.72rem;font-weight:700;letter-spacing:.12em;color:var(--orange-soft);text-transform:uppercase}
+.oc-line p{color:#D7DFE8;font-size:1rem;margin-top:2px}
+.oc-why{margin-top:9vh;background:rgba(232,93,38,.08);border:1px solid rgba(232,93,38,.3);border-radius:14px;padding:34px 36px;max-width:760px}
+.oc-why h3{font-size:1.5rem;color:var(--orange-soft);margin-bottom:10px}
+.oc-why p{color:#D7DFE8}
+
+/* ---------- provocation ---------- */
+#provocation{background:var(--navy);color:#fff;min-height:88vh;display:flex;align-items:center;text-align:center}
+#provocation p.big{font-family:var(--serif);font-size:clamp(2rem,5.4vw,4.2rem);max-width:20ch;margin:0 auto;line-height:1.18}
+#provocation p.big em{color:var(--orange);font-style:italic}
+
+/* ---------- landscape ---------- */
+#landscape{padding:14vh 0;background:var(--paper)}
+.labs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin-top:54px}
+.lab{background:#fff;border:1px solid #E4E0D8;border-radius:16px;padding:32px 28px;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s}
+.lab:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(12,35,64,.1)}
+.lab::before{content:"";position:absolute;top:0;left:0;right:0;height:5px}
+.lab.anthropic::before{background:var(--orange)}
+.lab.openai::before{background:var(--navy)}
+.lab.google::before{background:var(--teal)}
+.lab.microsoft{grid-column:1/-1}
+.lab.microsoft::before{background:#0078D4}
+.ms-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:34px;align-items:start}
+.lab.microsoft .pos{color:#0078D4}
+.ms-why{background:var(--paper);border-radius:12px;padding:24px 26px;border:1px solid #E4E0D8}
+.ms-why h4{font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:10px}
+.ms-why p{font-size:.9rem;color:#444c56;margin-bottom:12px}
+.ms-why p:last-child{margin-bottom:0}
+.ms-trade{padding-top:12px;border-top:1px dashed #DCD7CC;font-style:italic}
+@media(max-width:820px){.ms-grid{grid-template-columns:1fr}}
+.lab h3{font-size:1.55rem;margin-bottom:4px}
+.lab .pos{font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px}
+.lab.anthropic .pos{color:var(--orange)}
+.lab.openai .pos{color:var(--navy)}
+.lab.google .pos{color:var(--teal)}
+.lab p{font-size:.93rem;color:#444c56;margin-bottom:16px}
+.lab ul{list-style:none}
+.lab li{font-size:.88rem;padding:7px 0;border-top:1px dashed #E4E0D8;color:#333a42}
+.lab li strong{color:var(--navy)}
+.lab .know{margin-top:16px;background:var(--paper);border-radius:10px;padding:13px 15px;font-size:.85rem;color:#444c56}
+.lab .know b{color:var(--navy)}
+
+/* ---------- split screen ---------- */
+#split{padding:13vh 0;background:var(--navy);color:#fff}
+.split-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:54px;align-items:stretch}
+.split-pane{border-radius:16px;padding:34px 30px;min-height:430px;position:relative;overflow:hidden}
+.split-pane.web{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)}
+.split-pane.desk{background:linear-gradient(150deg,rgba(232,93,38,.16),rgba(232,93,38,.05));border:1px solid rgba(232,93,38,.45)}
+.split-pane h3{font-size:1.6rem;margin-bottom:4px}
+.split-pane .tagline{font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:22px}
+.web .tagline{color:#8FA0B3}
+.desk .tagline{color:var(--orange-soft)}
+.chatmock{background:var(--navy-deep);border-radius:10px;border:1px solid rgba(255,255,255,.12);padding:16px;font-size:.82rem;color:#C7D0DB}
+.chatmock .bub{background:rgba(255,255,255,.08);border-radius:8px;padding:9px 12px;margin-bottom:9px;max-width:88%}
+.chatmock .bub.user{background:rgba(26,107,138,.35);margin-left:auto}
+.iso-note{margin-top:18px;font-size:.88rem;color:#8FA0B3;line-height:1.55}
+.iso-note li{margin:7px 0 7px 18px}
+.hub{position:relative;height:240px;margin-top:8px}
+.hub-core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:86px;height:86px;border-radius:22px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:.74rem;text-align:center;line-height:1.25;box-shadow:0 0 0 8px rgba(232,93,38,.18);z-index:2}
+.hub-sat{position:absolute;width:74px;padding:8px 4px;border-radius:10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#E5EBF2;text-align:center;font-size:.66rem;font-weight:600}
+.hub-line{position:absolute;height:2px;background:linear-gradient(90deg,rgba(232,93,38,.85),rgba(232,93,38,.1));transform-origin:left center;animation:flow 2.6s linear infinite}
+@keyframes flow{0%{opacity:.35}50%{opacity:1}100%{opacity:.35}}
+.desk-note{margin-top:18px;font-size:.88rem;color:#E5D6CC;line-height:1.55}
+.desk-note li{margin:7px 0 7px 18px}
+.split-punch{margin-top:44px;text-align:center;font-family:var(--serif);font-size:clamp(1.3rem,2.6vw,1.9rem);max-width:34ch;margin-left:auto;margin-right:auto}
+.split-punch em{color:var(--orange-soft)}
+@media(max-width:820px){.split-grid{grid-template-columns:1fr}}
+
+/* ---------- unlock layers ---------- */
+#unlock{padding:14vh 0;background:var(--paper)}
+.layers{margin-top:54px;display:flex;flex-direction:column;gap:14px}
+.layer{border-radius:14px;padding:28px 30px;display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:start;border:1px solid #E4E0D8;background:#fff;opacity:0;transform:translateY(30px) scale(.98);transition:all .6s ease}
+.layer.vis{opacity:1;transform:none}
+.layer .yrs{font-family:var(--serif);font-size:1.15rem;color:var(--teal)}
+.layer h3{font-size:1.45rem;margin-bottom:6px}
+.layer p{font-size:.95rem;color:#444c56;max-width:62ch}
+.layer:nth-child(2){border-left:6px solid var(--teal-light)}
+.layer:nth-child(3){border-left:6px solid var(--orange);background:linear-gradient(120deg,#fff,#FDF1EA);box-shadow:0 10px 30px rgba(232,93,38,.1)}
+.layer:nth-child(3) .yrs{color:var(--orange)}
+.layer:nth-child(3) h3{font-size:1.65rem}
+.layer:nth-child(4){border-left:6px solid var(--teal);background:var(--paper);border-style:dashed;border-left-style:solid}
+.layer:nth-child(4) h3,.layer:nth-child(4) p{opacity:.85}
+.layer-flag{display:inline-block;margin-left:12px;vertical-align:middle;font-family:var(--sans);font-size:.66rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:var(--orange);color:#fff;border-radius:999px;padding:4px 12px}
+.layer-flag.watch{background:transparent;color:var(--teal);border:1.5px solid var(--teal)}
+.bridge{margin-top:74px;text-align:center}
+.bridge .b-line{width:2px;height:56px;background:linear-gradient(var(--teal),var(--orange));margin:0 auto 26px}
+.bridge p.b-big{font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.3rem);color:var(--navy);max-width:28ch;margin:0 auto 14px}
+.bridge p.b-big em{color:var(--orange);font-style:italic}
+.bridge p.b-sub{color:#5d6772;font-size:1rem;max-width:56ch;margin:0 auto}
+@media(max-width:680px){.layer{grid-template-columns:1fr}}
+
+/* ---------- demo: slide vs interactive ---------- */
+#demo{padding:13vh 0;background:var(--paper-dim)}
+.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:50px;align-items:stretch}
+.demo-pane{border-radius:14px;overflow:hidden;border:1px solid #DCD7CC;background:#fff;display:flex;flex-direction:column}
+.demo-head{padding:13px 18px;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
+.demo-pane.slide .demo-head{background:#6a7480;color:#fff}
+.demo-pane.live .demo-head{background:var(--orange);color:#fff}
+.demo-body{padding:24px;flex:1}
+.slide-mock{background:var(--paper);border:1px solid #E4E0D8;border-radius:6px;padding:22px;height:100%}
+.slide-mock h4{font-family:var(--serif);font-size:1.2rem;color:var(--navy);margin-bottom:14px}
+.bar-row{display:flex;align-items:center;gap:10px;margin:10px 0;font-size:.78rem;color:#555}
+.bar-row .lbl{width:96px;flex-shrink:0}
+.bar-track{flex:1;height:16px;background:#E8E4DB;border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;background:#9aa6b1}
+.live .bar-fill{background:var(--teal);transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.view-toggle{display:inline-flex;background:#EFEBE3;border-radius:999px;padding:4px;gap:4px;margin-bottom:12px}
+.vt-btn{border:none;background:transparent;font-family:var(--sans);font-weight:700;font-size:.78rem;color:#5d6772;border-radius:999px;padding:7px 16px;cursor:pointer;transition:all .2s}
+.vt-btn.active{background:var(--navy);color:#fff}
+.hm-grid{display:grid;grid-template-columns:64px repeat(4,1fr);gap:4px;margin-top:4px}
+.hm-h{font-family:var(--sans);font-size:.62rem;font-weight:800;color:#5d6772;text-transform:uppercase;letter-spacing:.03em;text-align:center;padding:5px 0;align-self:end;background:none;border:none;border-radius:5px;cursor:pointer;transition:color .2s,background .2s}
+.hm-h:hover{background:#EFEBE3;color:var(--navy)}
+.hm-h.active{color:var(--orange)}
+.hm-rl{font-size:.7rem;color:#5d6772;display:flex;align-items:center}
+.hm-rl b{color:var(--navy);font-weight:700;margin-right:4px}
+.hm-cell{height:25px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.64rem;font-weight:700;color:#fff;transition:transform .15s;cursor:default}
+.hm-cell:hover{transform:scale(1.14)}
+.hm-legend{display:flex;align-items:center;gap:8px;font-size:.66rem;color:#5d6772;margin-top:12px}
+.hm-legend .grad{flex:0 0 110px;height:8px;border-radius:4px;background:linear-gradient(90deg,#E85D26,#EDB458,#5FA8C4,#1A6B8A)}
+.hm-key{margin-left:auto;color:var(--orange);font-weight:700}
+.slide-mock .static-note{margin-top:16px;font-size:.72rem;color:#999;font-style:italic}
+.room-btns{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.room-btn{border:1.5px solid var(--teal);background:#fff;color:var(--teal);font-family:var(--sans);font-weight:600;font-size:.8rem;border-radius:999px;padding:7px 16px;cursor:pointer;transition:all .2s}
+.room-btn:hover{background:rgba(26,107,138,.08)}
+.room-btn.active{background:var(--teal);color:#fff}
+.live-insight{margin-top:14px;background:#FDF1EA;border-left:4px solid var(--orange);border-radius:0 8px 8px 0;padding:12px 15px;font-size:.85rem;color:#5a3a28;min-height:64px}
+.demo-punch{text-align:center;margin-top:44px;font-family:var(--serif);font-size:clamp(1.25rem,2.4vw,1.8rem);color:var(--navy)}
+.demo-punch em{color:var(--orange)}
+.demo-foot{text-align:center;margin-top:10px;font-size:.88rem;color:#6a7480}
+@media(max-width:820px){.demo-grid{grid-template-columns:1fr}}
+
+/* ---------- responsible quiz ---------- */
+#responsible{padding:14vh 0;background:var(--navy);color:#fff}
+.frame-box{margin-top:34px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:26px 30px;max-width:760px;font-size:1rem;color:#D7DFE8}
+/* direct instruction */
+.di-how{margin-top:54px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;counter-reset:distep}
+.di-step{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:24px 22px;position:relative}
+.di-step::before{counter-increment:distep;content:counter(distep);font-family:var(--serif);font-size:2.2rem;color:var(--orange);display:block;margin-bottom:8px;line-height:1}
+.di-step h4{font-size:1rem;font-weight:700;color:#fff;margin-bottom:7px}
+.di-step p{font-size:.88rem;color:#B9C5D2;line-height:1.55}
+.di-principle{margin:46px auto 0;text-align:center;font-family:var(--serif);font-size:clamp(1.4rem,2.8vw,2.1rem);max-width:26ch}
+.di-principle em{color:var(--orange-soft);font-style:italic}
+.dd-grid{margin-top:46px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.dd-col{border-radius:16px;overflow:hidden}
+.dd-col .dd-head{padding:18px 24px;font-weight:800;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.dd-col.safe .dd-head{background:#2E7D5B;color:#fff}
+.dd-col.risk .dd-head{background:var(--orange);color:#fff}
+.dd-col .dd-body{background:#fff;color:var(--ink);padding:8px 24px 18px}
+.dd-item{padding:15px 0;border-bottom:1px dashed #E4E0D8}
+.dd-item:last-child{border-bottom:none}
+.dd-item strong{display:block;font-size:.94rem;color:var(--navy);margin-bottom:3px}
+.dd-item span{font-size:.84rem;color:#5d6772;line-height:1.5;display:block}
+.dd-col.safe .dd-item strong::before{content:"\2713";color:#2E7D5B;font-weight:800;margin-right:9px}
+.dd-col.risk .dd-item strong::before{content:"\2717";color:var(--orange);font-weight:800;margin-right:9px}
+.quiz-intro{margin-top:64px;max-width:680px}
+.quiz-intro h3{font-size:1.7rem;margin-bottom:8px}
+.quiz-intro p{color:#C7D0DB;font-size:1rem}
+@media(max-width:760px){.dd-grid{grid-template-columns:1fr}}
+.quiz{margin-top:54px;display:grid;gap:18px}
+.qcard{background:#fff;color:var(--ink);border-radius:14px;padding:26px 28px}
+.qcard .scenario-tag{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.qcard h3{font-family:var(--sans);font-weight:700;font-size:1.06rem;margin:8px 0 16px;line-height:1.5;color:var(--navy)}
+.qbtns{display:flex;gap:10px;flex-wrap:wrap}
+.qbtn{font-family:var(--sans);font-weight:700;font-size:.86rem;border-radius:999px;padding:10px 22px;cursor:pointer;border:2px solid;transition:all .2s}
+.qbtn.yes{border-color:var(--teal);color:var(--teal);background:#fff}
+.qbtn.no{border-color:var(--orange);color:var(--orange);background:#fff}
+.qbtn:hover{transform:translateY(-2px)}
+.qbtn.picked-right{background:var(--teal);border-color:var(--teal);color:#fff}
+.qbtn.picked-right.no{background:var(--orange);border-color:var(--orange)}
+.qbtn.picked-wrong{background:#fbe9e2;border-color:#d9744a;color:#a14a23}
+.qverdict{margin-top:14px;border-radius:10px;padding:14px 17px;font-size:.9rem;display:none;line-height:1.55}
+.qverdict.show{display:block}
+.qverdict.ok{background:#E8F2EE;border-left:4px solid #2E7D5B;color:#1d4a37}
+.qverdict.warn{background:#FBEFE8;border-left:4px solid var(--orange);color:#6e3a1c}
+.checklist{margin-top:54px;background:rgba(232,93,38,.1);border:1px solid rgba(232,93,38,.4);border-radius:14px;padding:30px 34px;max-width:760px}
+.checklist h3{color:var(--orange-soft);font-size:1.45rem;margin-bottom:14px}
+.checklist ol{margin-left:20px;color:#E5EBF2}
+.checklist li{margin:9px 0;font-size:1rem}
+
+/* ---------- four use cases ---------- */
+#fourways{padding:14vh 0;background:var(--paper)}
+.uc-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:54px}
+.uc{background:#fff;border-radius:16px;border:1px solid #E4E0D8;padding:32px 30px;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s}
+.uc:hover{transform:translateY(-4px);box-shadow:0 16px 38px rgba(12,35,64,.1)}
+.uc .glyph{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.uc .glyph svg{width:26px;height:26px}
+.uc.search .glyph{background:rgba(26,107,138,.13)}
+.uc.partner .glyph{background:rgba(95,168,196,.18)}
+.uc.chief .glyph{background:rgba(232,93,38,.13)}
+.uc.creator .glyph{background:rgba(244,133,79,.16)}
+.uc h3{font-size:1.55rem;margin-bottom:3px}
+.uc .uc-tag{font-size:.86rem;color:#6a7480;font-style:italic;margin-bottom:18px}
+.uc p.desc{font-size:.93rem;color:#444c56;margin-bottom:18px}
+.uc .block{border-radius:10px;padding:15px 17px;font-size:.87rem;margin-top:12px;line-height:1.55}
+.uc .block .bl{font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:5px}
+.uc .ex{background:#F1F6F8;color:#2c4654}
+.uc .ex .bl{color:var(--teal)}
+.uc .caution{background:#FBF1EA;color:#5a3a28}
+.uc .caution .bl{color:var(--orange)}
+@media(max-width:820px){.uc-grid{grid-template-columns:1fr}}
+
+/* ---------- closing ---------- */
+#yourturn{padding:14vh 0 12vh;background:var(--navy);color:#fff;position:relative;overflow:hidden}
+#yourturn h2{font-size:clamp(2.4rem,5.5vw,4rem);max-width:14ch}
+.tiles{margin-top:56px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.tile{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;transition:border-color .3s}
+.tile.open{border-color:var(--orange)}
+.tile-head{width:100%;background:none;border:none;color:#fff;text-align:left;padding:26px 28px;cursor:pointer;font-family:var(--sans);display:flex;justify-content:space-between;align-items:center;gap:14px}
+.tile-head .th-text strong{display:block;font-family:var(--serif);font-size:1.45rem;margin-bottom:5px}
+.tile-head .th-text span{color:#9FB0C2;font-size:.92rem;line-height:1.45;display:block}
+.tile-head .chev{flex-shrink:0;width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;transition:transform .3s;font-size:1rem}
+.tile.open .chev{transform:rotate(45deg);border-color:var(--orange);color:var(--orange-soft)}
+.tile-body{max-height:0;overflow:hidden;transition:max-height .45s ease}
+.tile.open .tile-body{max-height:820px}
+.prompts{padding:0 28px 26px;display:flex;flex-direction:column;gap:10px}
+.prompt{background:var(--navy-deep);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:13px 15px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.prompt p{font-size:.86rem;color:#D7DFE8;flex:1}
+.copybtn{flex-shrink:0;background:rgba(232,93,38,.16);color:var(--orange-soft);border:1px solid rgba(232,93,38,.45);border-radius:7px;font-family:var(--sans);font-weight:700;font-size:.72rem;padding:6px 13px;cursor:pointer;transition:all .2s}
+.copybtn:hover{background:var(--orange);color:#fff}
+.copybtn.copied{background:#2E7D5B;border-color:#2E7D5B;color:#fff}
+.tile-note{font-size:.78rem;color:#8FA0B3;line-height:1.5;padding-top:4px;border-top:1px dashed rgba(255,255,255,.15);margin-top:6px}
+@media(max-width:820px){.tiles{grid-template-columns:1fr}}
+footer{background:var(--navy-deep);color:#7e8fa2;font-size:.8rem;padding:34px 0;text-align:center}
+footer .wrap{max-width:680px}
+</style>
+</head>
+<body>
+
+<div id="prognav"><div id="progbar"></div></div>
+<nav id="sectnav" aria-label="Section navigation">
+  <a href="#hero" data-sect="hero"><span>Start</span></a>
+  <a href="#timeline" data-sect="timeline"><span>How We Got Here</span></a>
+  <a href="#landscape" data-sect="landscape"><span>The Landscape</span></a>
+  <a href="#unlock" data-sect="unlock"><span>Knowledge Work</span></a>
+  <a href="#responsible" data-sect="responsible"><span>Working Responsibly</span></a>
+  <a href="#fourways" data-sect="fourways"><span>Four Ways</span></a>
+  <a href="#yourturn" data-sect="yourturn"><span>Your Turn</span></a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-pulse" style="width:420px;height:420px;top:14%;right:10%"></div>
+  <div class="hero-pulse" style="width:420px;height:420px;top:14%;right:10%;animation-delay:1.6s"></div>
+  <div class="hero-pulse" style="width:300px;height:300px;bottom:8%;left:6%;animation-delay:.8s"></div>
+  <div class="wrap">
+    <p class="eyebrow on-dark">AI 101 &middot; A Field Guide for Education Consultants</p>
+    <h1>The machines learned to <em>do things.</em><br>Now what?</h1>
+    <p class="lede">You are one scroll away from ninety years of history, one viral lobster, and the four ways this moment changes your work. No jargon. No hype. Just the story, and what to do with it.</p>
+    <div class="hero-meta">
+      <div><strong>90 years</strong>of history in one scroll</div>
+      <div><strong>3 labs</strong>shaping the frontier</div>
+      <div><strong>4 ways</strong>to put it to work today</div>
+    </div>
+    <a href="#gateway" class="cta" id="enterbtn">Step Inside<span class="cta-arrow" aria-hidden="true">&darr;</span></a>
+  </div>
+  <div class="scroll-cue">or just scroll</div>
+</section>
+
+<!-- ============ GATEWAY: ENTRY SCENE ============ -->
+<section id="gateway" aria-label="Entry scene: a neural network assembles as you scroll">
+  <div class="gw-sticky">
+    <canvas id="gwcanvas"></canvas>
+    <div class="gw-beat" data-beat="0"><p>For most of a century, we tried to teach machines to think.</p></div>
+    <div class="gw-beat" data-beat="1"><p>Mostly, we failed.</p></div>
+    <div class="gw-beat" data-beat="2"><p>Then we stopped programming them<span class="gw-em">and started training them.</span></p></div>
+    <div class="gw-beat" data-beat="3"><p class="gw-final">This is how it happened.</p></div>
+    <div class="gw-vignette"></div>
+  </div>
+</section>
+
+<!-- ============ SECTION 1: TIMELINE ============ -->
+<section id="timeline">
+  <div class="wrap tl-intro reveal">
+    <p class="eyebrow">Part One</p>
+    <h2 class="section-title">How We Got Here</h2>
+    <p class="lede">AI did not improve gradually. It moved in sudden leaps separated by long, quiet decades. Watch the pacing as you scroll: the first eighty years pass in a moment. Then 2017 arrives, and time slows down.</p>
+  </div>
+
+  <div class="tl-rail wrap">
+    <div class="tl-item era-early">
+      <div class="tl-node"></div>
+      <div class="tl-card">
+        <div class="tl-year">1936</div>
+        <h3>Turing&rsquo;s Question</h3>
+        <p>Alan Turing publishes &ldquo;On Computable Numbers&rdquo; and later asks the question that launches a field: can a machine think?</p>
+      </div>
+    </div>
+    <div class="tl-item era-early">
+      <div class="tl-node"></div>
+      <div class="tl-card">
+        <div class="tl-year">1956</div>
+        <h3>The Dartmouth Conference</h3>
+        <p>The term &ldquo;artificial intelligence&rdquo; is coined. Researchers predict human-level AI within a decade. It will take seventy years longer than that.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tl-winterband">
+    <div class="frost"></div>
+    <div class="tl-rail wrap">
+      <div class="tl-item era-early">
+        <div class="tl-node"></div>
+        <div class="tl-card">
+          <div class="tl-year">1966&ndash;1987</div>
+          <h3>The AI Winters</h3>
+          <p>Funding collapses twice as AI fails to deliver on its promises. Hype, then disappointment, then silence. The field nearly dies. Twice.</p>
+        </div>
+      </div>
+    </div>
+    <p class="era-note">Decades pass. Almost nothing happens.</p>
+  </div>
+
+  <div class="tl-rail wrap">
+    <div class="tl-item era-early">
+      <div class="tl-node"></div>
+      <div class="tl-card">
+        <div class="tl-year">1997</div>
+        <h3>Deep Blue Beats Kasparov</h3>
+        <p>IBM&rsquo;s chess computer defeats the world champion. Machines can master one narrow task. General intelligence remains a fantasy.</p>
+      </div>
+    </div>
+    <div class="tl-item era-early">
+      <div class="tl-node"></div>
+      <div class="tl-card">
+        <div class="tl-year">2012</div>
+        <h3>The Deep Learning Breakthrough</h3>
+        <p>AlexNet wins an image recognition contest by a stunning margin. Neural networks, long dismissed, suddenly work. The modern era begins here.</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="era-note warm">Then everything changes.</p>
+
+  <div class="tl-rail wrap">
+    <div class="tl-item era-modern">
+      <div class="tl-node"></div>
+      <div class="tl-card">
+        <span class="tl-tag">The Foundation</span>
+        <div class="tl-year">2017</div>
+        <h3>&ldquo;Attention Is All You Need&rdquo;</h3>
+        <p>Eight Google researchers publish the Transformer architecture. This single paper is the technical foundation of every major AI model that follows: GPT, Claude, Gemini, all of it. Most of the world has never heard of it.</p>
+      </div>
+    </div>
+    <div class="tl-item era-modern">
+      <div class="tl-node"></div>
+      <div class="tl-card">
+        <span class="tl-tag">The Public Moment</span>
+        <div class="tl-year">2022</div>
+        <h3>ChatGPT Launches</h3>
+        <p>One hundred million users in two months, the fastest product adoption in history. For most people, this is the day AI became real.</p>
+      </div>
+    </div>
+    <div class="tl-item era-modern">
+      <div class="tl-node"></div>
+      <div class="tl-card">
+        <span class="tl-tag">The Race</span>
+        <div class="tl-year">2023</div>
+        <h3>The Frontier Labs Multiply</h3>
+        <p>Anthropic releases Claude. Google answers with Gemini. Meta open-sources Llama. The race is no longer one company. Capabilities begin doubling roughly every six months.</p>
+      </div>
+    </div>
+    <div class="tl-item era-modern">
+      <div class="tl-node"></div>
+      <div class="tl-card">
+        <span class="tl-tag">From Talking to Building</span>
+        <div class="tl-year">2024</div>
+        <h3>Vibe Coding Arrives</h3>
+        <p>Models become good enough to write working software from plain-language descriptions. People who have never written a line of code start shipping real tools. The ceiling on what one person can build rises dramatically.</p>
+      </div>
+    </div>
+    <div class="tl-item era-modern">
+      <div class="tl-node"></div>
+      <div class="tl-card">
+        <span class="tl-tag">The Jump</span>
+        <div class="tl-year">Late 2025</div>
+        <h3>Something Shifts</h3>
+        <p>A new generation of models lands, led by releases like Claude Opus 4.5 and Gemini 3, and early adopters notice that AI-assisted building has taken a qualitative leap. Not just faster. Categorically more capable. The tools start to feel different.</p>
+      </div>
+    </div>
+    <div class="tl-item era-modern">
+      <div class="tl-node"></div>
+      <div class="tl-card">
+        <span class="tl-tag">A Side Project</span>
+        <div class="tl-year">Nov 2025</div>
+        <h3>A Developer Ships a Lobster</h3>
+        <p>Austrian developer Peter Steinberger quietly publishes a side project to GitHub: a free, open-source AI agent that runs on your own computer. You text it a task. It gets the task done. For two months, almost nobody notices.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OPENCLAW SET PIECE ============ -->
+<section id="openclaw">
+  <div class="glow"></div>
+  <div class="wrap">
+    <p class="oc-kicker reveal">The last week of January 2026</p>
+    <h2 class="reveal">Then the internet found it.</h2>
+    <p class="oc-sub reveal">The project, by then called OpenClaw, became the fastest-growing open-source project in GitHub history. For the first time, a mass audience saw what an AI agent actually is: not a chatbot, but a system that acts on your behalf.</p>
+
+    <div class="star-counter" id="starcount" aria-label="149,000 GitHub stars">0</div>
+    <p class="star-label">GitHub stars in a single viral week</p>
+
+    <div class="oc-stats reveal">
+      <div class="oc-stat"><strong>2,000,000</strong><span>repository visits in seven days</span></div>
+      <div class="oc-stat"><strong>770,000</strong><span>AI agents spawned on a social network built for them</span></div>
+      <div class="oc-stat"><strong>3 renames</strong><span>in four days after a trademark dispute with Anthropic</span></div>
+      <div class="oc-stat"><strong>#1</strong><span>fastest-growing open-source project ever</span></div>
+    </div>
+
+    <div class="oc-feed" id="ocfeed">
+      <div class="oc-line"><span class="d">Nov 2025</span><p>Launches as &ldquo;Clawdbot,&rdquo; a playful nod to Claude. Obscurity.</p></div>
+      <div class="oc-line"><span class="d">Late Jan 2026</span><p>Goes viral. Anthropic&rsquo;s legal team politely requests a name change. Renamed &ldquo;Moltbot&rdquo; the same day, because lobsters molt to grow.</p></div>
+      <div class="oc-line"><span class="d">Three days later</span><p>Renamed again to OpenClaw. &ldquo;The lobster has molted into its final form.&rdquo;</p></div>
+      <div class="oc-line"><span class="d">Weeks later</span><p>Steinberger is hired by OpenAI. NVIDIA announces an enterprise version. China erupts in a &ldquo;raising lobsters&rdquo; craze. Security researchers find serious vulnerabilities in carelessly exposed instances, a preview of the new risks agents bring.</p></div>
+    </div>
+
+    <div class="oc-why reveal">
+      <h3>Why this moment matters</h3>
+      <p>OpenClaw did not go viral because of marketing. It went viral because it worked. Chatbots could summarize, draft, and answer, but you still had to copy, paste, click, and send everything yourself. An agent collapses that entire loop. It feels less like talking to software and more like handing work to a capable assistant. That shift, from AI that talks to AI that acts, is the moment we are living in right now.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROVOCATION ============ -->
+<section id="provocation">
+  <div class="wrap">
+    <p class="big reveal">We are not watching AI improve.<br>We are watching it <em>change what&rsquo;s possible.</em></p>
+  </div>
+</section>
+
+<!-- ============ SECTION 2: LANDSCAPE ============ -->
+<section id="landscape">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow">Part Two</p>
+      <h2 class="section-title">The Current Landscape</h2>
+      <p class="lede">Three labs sit at the frontier, and one company you already work for puts their models inside the tools you use all day. The labs release new flagship models every few months, so specific names age fast. What matters is knowing who the players are and what each one is for.</p>
+    </div>
+
+    <div class="labs">
+      <div class="lab anthropic reveal">
+        <h3>Anthropic</h3>
+        <p class="pos">The trust-focused lab</p>
+        <p>Founded by former OpenAI researchers with safety as the founding premise. Maker of Claude, widely regarded as the strongest model family for nuanced reasoning, long documents, and writing quality.</p>
+        <ul>
+          <li><strong>Claude.ai</strong> &middot; web and mobile chat</li>
+          <li><strong>Claude Desktop</strong> &middot; AI with access to your files, calendar, and apps</li>
+          <li><strong>Claude Cowork</strong> &middot; an agentic desktop app for knowledge work</li>
+          <li><strong>Claude Code</strong> &middot; an agent for software work</li>
+        </ul>
+        <div class="know"><b>Current flagships:</b> the Claude 5 family arrived in June 2026, alongside the Claude 4 line (Opus, Sonnet, Haiku).</div>
+      </div>
+
+      <div class="lab openai reveal">
+        <h3>OpenAI</h3>
+        <p class="pos">The lab that started the wave</p>
+        <p>Creator of ChatGPT and the GPT series. The largest user base, the most recognized brand, and the deepest integration into third-party tools across the industry.</p>
+        <ul>
+          <li><strong>ChatGPT</strong> &middot; web, mobile, and desktop chat</li>
+          <li><strong>Codex</strong> &middot; an autonomous coding agent that works in the background</li>
+          <li><strong>OpenAI API</strong> &middot; powers thousands of other products</li>
+        </ul>
+        <div class="know"><b>Current flagship:</b> GPT-5.5, released April 2026. OpenAI also hired OpenClaw&rsquo;s creator to build next-generation agents.</div>
+      </div>
+
+      <div class="lab google reveal">
+        <h3>Google DeepMind</h3>
+        <p class="pos">The everywhere lab</p>
+        <p>Google&rsquo;s consolidated AI arm. Its superpower is distribution: Gemini is woven directly into Docs, Sheets, Gmail, and Search, the tools most school systems already live in.</p>
+        <ul>
+          <li><strong>Gemini</strong> &middot; chat at gemini.google.com and inside Workspace</li>
+          <li><strong>NotebookLM</strong> &middot; a standout research tool that works only from sources you give it</li>
+          <li><strong>Gemini Spark</strong> &middot; a cloud-based agent that works around the clock</li>
+        </ul>
+        <div class="know"><b>Current flagship:</b> Gemini 3.1 Pro, with the fast and inexpensive 3.5 Flash beside it.</div>
+      </div>
+
+      <div class="lab microsoft reveal">
+        <div class="ms-grid">
+          <div>
+            <h3>Microsoft Copilot</h3>
+            <p class="pos">The workplace layer</p>
+            <p>Not a fourth frontier lab. Microsoft&rsquo;s play is different: take frontier models, from OpenAI, Anthropic, and increasingly its own, and install them inside Word, Excel, Outlook, Teams, and PowerPoint. You do not go to the AI. The AI is already in your tools.</p>
+            <ul>
+              <li><strong>Microsoft 365 Copilot</strong> &middot; AI inside the Office apps: draft in Word, analyze in Excel, summarize in Teams, triage in Outlook</li>
+              <li><strong>Copilot Chat</strong> &middot; a general assistant that can reason over your work files, email, and meetings</li>
+              <li><strong>Copilot Studio</strong> &middot; build custom agents for your organization without code</li>
+            </ul>
+          </div>
+          <div class="ms-why">
+            <h4>Why your employer points you here</h4>
+            <p>When you use Copilot through a work account, your prompts and files stay inside your organization&rsquo;s protected environment. They are not used to train models, and they are covered by your org&rsquo;s data agreements with Microsoft. Remember the &ldquo;what happens next depends on the tool&rdquo; step coming up in the responsible use section: Copilot under a work account is the approved-tool side of that line. That is why many organizations, including ours, make it the default for work containing sensitive content.</p>
+            <p class="ms-trade">The honest tradeoff: Copilot is the safest place for client work, while the standalone lab apps often get new capabilities first. Knowing both is the point of this page.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SPLIT: WEB VS DESKTOP ============ -->
+<section id="split">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow on-dark">The shift that matters most</p>
+      <h2 class="section-title">A Browser Tab vs. a Desk</h2>
+      <p class="lede on-dark">The biggest change of the past year is not any single model. It is where AI lives. The same intelligence behaves completely differently depending on what it can reach.</p>
+    </div>
+
+    <div class="split-grid">
+      <div class="split-pane web reveal">
+        <h3>The Web App</h3>
+        <p class="tagline">A brilliant stranger</p>
+        <div class="chatmock" aria-hidden="true">
+          <div class="bub user">Summarize my notes from the Barnstable visit</div>
+          <div class="bub">I don&rsquo;t have access to your files. Could you paste the notes here?</div>
+          <div class="bub user">*pastes 6 pages*</div>
+          <div class="bub">Here&rsquo;s a summary...</div>
+        </div>
+        <ul class="iso-note">
+          <li>Every conversation starts from zero</li>
+          <li>Can&rsquo;t see your files, calendar, or email</li>
+          <li>You are the courier: copy in, copy out</li>
+          <li>Still genuinely powerful for thinking, drafting, and research</li>
+        </ul>
+      </div>
+
+      <div class="split-pane desk reveal">
+        <h3>The Desktop App</h3>
+        <p class="tagline">A capable assistant</p>
+        <div class="hub" aria-hidden="true">
+          <div class="hub-line" style="left:50%;top:50%;width:32%;transform:rotate(-32deg)"></div>
+          <div class="hub-line" style="left:50%;top:50%;width:34%;transform:rotate(28deg);animation-delay:.6s"></div>
+          <div class="hub-line" style="left:50%;top:50%;width:33%;transform:rotate(155deg);animation-delay:1.2s"></div>
+          <div class="hub-line" style="left:50%;top:50%;width:31%;transform:rotate(208deg);animation-delay:1.8s"></div>
+          <div class="hub-core">Claude<br>Desktop</div>
+          <div class="hub-sat" style="right:2%;top:6%">Your files</div>
+          <div class="hub-sat" style="right:0;bottom:10%">Calendar</div>
+          <div class="hub-sat" style="left:2%;bottom:6%">Email</div>
+          <div class="hub-sat" style="left:0;top:10%">Skills &amp; automations</div>
+        </div>
+        <ul class="desk-note">
+          <li>Reads and writes files on your computer</li>
+          <li>Connects to calendar, email, and the tools you work in</li>
+          <li>Runs multi-step workflows while you do something else</li>
+          <li>Remembers context across sessions</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="split-punch reveal">The web app helps you think.<br>The desktop app helps you <em>do.</em></p>
+  </div>
+</section>
+
+<!-- ============ SECTION 3: UNLOCK ============ -->
+<section id="unlock">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow">Part Three</p>
+      <h2 class="section-title">What This Unlocked for Knowledge Workers</h2>
+      <p class="lede">Each wave of capability stacked on the last. None of the earlier layers went away. They compounded. And for our work, right now, one layer matters more than the rest.</p>
+    </div>
+
+    <div class="layers">
+      <div class="layer">
+        <div class="yrs">2022&ndash;23</div>
+        <div><h3>Search &amp; Synthesis</h3><p>AI reads documents, summarizes research, and answers questions in plain language. Intake and orientation that took an hour takes minutes.</p></div>
+      </div>
+      <div class="layer">
+        <div class="yrs">2023&ndash;24</div>
+        <div><h3>Writing &amp; Drafting</h3><p>AI produces professional first drafts of memos, proposals, and frameworks. The blank page disappears. Your job shifts from construction to editing and judgment.</p></div>
+      </div>
+      <div class="layer">
+        <div class="yrs">2024&ndash;25</div>
+        <div><h3>Building<span class="layer-flag">The unlock &middot; case study below &darr;</span></h3><p>AI generates working code, interactive tools, and data visualizations. Consultants who cannot code now ship things that used to require a developer. For education consultants, this is the unlock of the moment: the shortest path from AI curiosity to something your clients can actually hold, click, and use. Master this layer and the others come along for free.</p></div>
+      </div>
+      <div class="layer">
+        <div class="yrs">2025&ndash;now</div>
+        <div><h3>Acting<span class="layer-flag watch">Worth watching</span></h3><p>AI agents execute multi-step workflows across apps with minimal supervision. OpenClaw made the potential vivid, and tools like Claude Desktop are making it practical. This layer is arriving fast and getting genuinely useful. It is also not where most of us will start. Start one layer up.</p></div>
+      </div>
+    </div>
+
+    <div class="bridge reveal">
+      <div class="b-line" aria-hidden="true"></div>
+      <p class="b-big">Stacked up like that, it sounds abstract.<br>So let&rsquo;s zoom in on <em>the layer that matters most.</em></p>
+      <p class="b-sub">Building changes consulting work most visibly, because it changes the deliverable itself. And no deliverable defines our profession more than the one below.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEMO: SLIDES VS HTML ============ -->
+<section id="demo">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow">The Building layer, up close</p>
+      <h2 class="section-title">A slide deck is a locked room.<br>An HTML file is a door.</h2>
+      <p class="lede">When AI can build, the question becomes what to build. Start with the deliverable consultants produce more than any other: the deck. Both panels below show the same walkthrough data from a fictional school visit. One is a slide. One is alive. Try them.</p>
+    </div>
+
+    <div class="demo-grid">
+      <div class="demo-pane slide reveal">
+        <div class="demo-head"><span>The Slide</span><span>Static</span></div>
+        <div class="demo-body">
+          <div class="slide-mock">
+            <h4>Walkthrough Data: Schoolwide Average</h4>
+            <div class="bar-row"><span class="lbl">Culture</span><div class="bar-track"><div class="bar-fill" style="width:72%"></div></div><span>2.9</span></div>
+            <div class="bar-row"><span class="lbl">Core Action 1</span><div class="bar-track"><div class="bar-fill" style="width:62%"></div></div><span>2.5</span></div>
+            <div class="bar-row"><span class="lbl">Core Action 2</span><div class="bar-track"><div class="bar-fill" style="width:47%"></div></div><span>1.9</span></div>
+            <div class="bar-row"><span class="lbl">Core Action 3</span><div class="bar-track"><div class="bar-fill" style="width:52%"></div></div><span>2.1</span></div>
+            <p class="static-note">That&rsquo;s it. That&rsquo;s the slide. To see grade bands or individual classrooms, email the consultant and wait.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-pane live reveal">
+        <div class="demo-head"><span>The Interactive</span><span>Click around</span></div>
+        <div class="demo-body">
+          <div class="view-toggle" role="group" aria-label="Choose a view">
+            <button class="vt-btn active" data-view="bars">Averages</button>
+            <button class="vt-btn" data-view="heat">Every classroom</button>
+          </div>
+          <div class="room-btns" role="group" aria-label="Choose a grade band">
+            <button class="room-btn active" data-room="all">Schoolwide</button>
+            <button class="room-btn" data-room="es">Grades 3&ndash;5</button>
+            <button class="room-btn" data-room="ms">Grades 6&ndash;8</button>
+          </div>
+          <div id="barsview">
+            <div class="bar-row"><span class="lbl">Culture</span><div class="bar-track"><div class="bar-fill" id="b1"></div></div><span id="v1"></span></div>
+            <div class="bar-row"><span class="lbl">Core Action 1</span><div class="bar-track"><div class="bar-fill" id="b2"></div></div><span id="v2"></span></div>
+            <div class="bar-row"><span class="lbl">Core Action 2</span><div class="bar-track"><div class="bar-fill" id="b3"></div></div><span id="v3"></span></div>
+            <div class="bar-row"><span class="lbl">Core Action 3</span><div class="bar-track"><div class="bar-fill" id="b4"></div></div><span id="v4"></span></div>
+          </div>
+          <div id="heatview" hidden>
+            <div class="hm-grid" id="hmgrid"></div>
+            <div class="hm-legend"><span>1.0</span><span class="grad" aria-hidden="true"></span><span>4.0</span><span class="hm-key">&starf; = bright spot</span></div>
+          </div>
+          <div class="live-insight" id="insight"></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="demo-punch reveal">Same data. Same build time. <em>Which one would your client rather receive?</em></p>
+    <p class="demo-foot reveal">Domains from the openly licensed Instructional Practice Guide (Student Achievement Partners): Core Action 1 is grade-level content, Core Action 2 is questions and tasks, Core Action 3 is student engagement. All classroom data is fictional. Building an interactive like this used to require a web developer and a few weeks. With AI tools, it takes a consultant an afternoon. That changes what is worth making.</p>
+  </div>
+</section>
+
+<!-- ============ SECTION 4: RESPONSIBLE ============ -->
+<section id="responsible">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow on-dark">Part Four</p>
+      <h2 class="section-title">Working Responsibly</h2>
+      <p class="lede on-dark">We work with student data, district data, and client information that carries legal and ethical weight. AI tools are powerful, but what you type into them leaves your computer. What you put in matters.</p>
+    </div>
+
+    <div class="di-how reveal">
+      <div class="di-step">
+        <h4>You type something into an AI tool</h4>
+        <p>A question, a draft, a document. Whatever it is, it does not stay on your screen.</p>
+      </div>
+      <div class="di-step">
+        <h4>It travels to the company&rsquo;s servers</h4>
+        <p>Your text is processed by computers you do not control, governed by that tool&rsquo;s data policies, not yours.</p>
+      </div>
+      <div class="di-step">
+        <h4>What happens next depends on the tool</h4>
+        <p>Approved enterprise accounts carry data protections and agreements; Copilot through your work account is the clearest example. Free consumer accounts often do not, and some use your inputs to train future models.</p>
+      </div>
+    </div>
+
+    <p class="di-principle reveal">The task is rarely the problem.<br><em>The information you share is.</em></p>
+
+    <div class="frame-box reveal">
+      Asking AI to summarize meeting notes is fine. Asking it to summarize meeting notes that contain student names is not. Same task, different inputs, completely different answer. So the question to ask is never &ldquo;is AI allowed?&rdquo; It is &ldquo;is this information safe to send to an external service?&rdquo; Here is how to sort it.
+    </div>
+
+    <div class="dd-grid">
+      <div class="dd-col safe reveal">
+        <div class="dd-head">Generally appropriate to share</div>
+        <div class="dd-body">
+          <div class="dd-item"><strong>Your own thinking</strong><span>Plans, drafts, frameworks, agendas, facilitation ideas. It is your work and contains nothing confidential.</span></div>
+          <div class="dd-item"><strong>Public information</strong><span>Published research, state policy, public report data. It is already in the world.</span></div>
+          <div class="dd-item"><strong>Anonymized or fictional examples</strong><span>Real situations with names, IDs, and identifying details fully stripped. Remove the identity and you remove most of the risk.</span></div>
+          <div class="dd-item"><strong>General professional questions</strong><span>&ldquo;How should I structure a coaching conversation about pacing?&rdquo; No client required.</span></div>
+        </div>
+      </div>
+      <div class="dd-col risk reveal">
+        <div class="dd-head">Risky or off-limits</div>
+        <div class="dd-body">
+          <div class="dd-item"><strong>Student names, IDs, or records</strong><span>Grades, IEP details, behavior data. Legally protected under FERPA. This is the brightest line there is. Never.</span></div>
+          <div class="dd-item"><strong>Confidential client documents</strong><span>Draft strategic plans, internal data, anything shared with us in trust. It is not ours to hand to a third party without permission.</span></div>
+          <div class="dd-item"><strong>Personnel matters with names</strong><span>A struggling teacher, a leadership conflict. Describe the situation generically instead; the advice will be just as good.</span></div>
+          <div class="dd-item"><strong>Unverified AI claims in deliverables</strong><span>Citations, statistics, and quotes that you have not independently confirmed. AI fabricates convincingly, and the output ships under your name.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quiz-intro reveal">
+      <h3>Now check your instincts</h3>
+      <p>Four scenarios pulled from real consulting life. For each one, decide: safe to share with an AI tool, or hold off?</p>
+    </div>
+
+    <div class="quiz">
+      <div class="qcard reveal" data-answer="no">
+        <span class="scenario-tag">Scenario 1</span>
+        <h3>You have a spreadsheet of student reading scores, with names, from a partner district. You want AI to spot trends.</h3>
+        <div class="qbtns">
+          <button class="qbtn yes">Safe to share</button>
+          <button class="qbtn no">Hold off</button>
+        </div>
+        <div class="qverdict warn">Hold off. Real student names plus performance data is exactly the category that must never enter an external AI tool. The workaround is easy: strip names and IDs first, or describe the pattern in general terms and ask AI to help you build the analysis approach.</div>
+      </div>
+
+      <div class="qcard reveal" data-answer="yes">
+        <span class="scenario-tag">Scenario 2</span>
+        <h3>You are designing a PD session on text complexity and want AI to pressure-test your draft agenda. No client names, no data, just your plan.</h3>
+        <div class="qbtns">
+          <button class="qbtn yes">Safe to share</button>
+          <button class="qbtn no">Hold off</button>
+        </div>
+        <div class="qverdict ok">Safe to share. This is your own thinking with no confidential content, the top-left of the chart above. Pressure-testing your plans is one of the highest-value, lowest-risk uses of AI. Pro move: ask it what assumptions you are making and where you might lose the room.</div>
+      </div>
+
+      <div class="qcard reveal" data-answer="no">
+        <span class="scenario-tag">Scenario 3</span>
+        <h3>A district sent you their confidential draft strategic plan. You want AI to summarize it before tomorrow&rsquo;s meeting.</h3>
+        <div class="qbtns">
+          <button class="qbtn yes">Safe to share</button>
+          <button class="qbtn no">Hold off</button>
+        </div>
+        <div class="qverdict warn">Hold off. A client&rsquo;s confidential document is theirs, not yours, and sharing it with a third-party tool without their knowledge breaches trust even when the tool is secure. Check your org&rsquo;s current AI policy and the client agreement first. When approved enterprise tools with data protections are available, this becomes a different conversation.</div>
+      </div>
+
+      <div class="qcard reveal" data-answer="no">
+        <span class="scenario-tag">Scenario 4</span>
+        <h3>AI wrote you a beautiful literature review with six citations supporting your recommendation. Deadline is in an hour. Ship it to the client?</h3>
+        <div class="qbtns">
+          <button class="qbtn yes">Ship it</button>
+          <button class="qbtn no">Verify first</button>
+        </div>
+        <div class="qverdict warn">Verify first, always. AI confidently fabricates citations that look completely real: plausible authors, plausible journals, plausible years. Every source goes out under your name and TNTP&rsquo;s. Check that each one exists and says what the AI claims it says.</div>
+      </div>
+    </div>
+
+    <div class="checklist reveal">
+      <h3>The three-second check, before you share</h3>
+      <ol>
+        <li>Does this contain real names, student data, or confidential client information?</li>
+        <li>Would I be comfortable if this text appeared on a server I don&rsquo;t control?</li>
+        <li>Am I using AI to sharpen my expertise, or to substitute for it?</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 5: FOUR WAYS ============ -->
+<section id="fourways">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow">Part Five</p>
+      <h2 class="section-title">Four Ways to Use AI as a Consultant</h2>
+      <p class="lede">A practical frame for everything that follows. Every productive use of AI in our work fits one of these four modes.</p>
+    </div>
+
+    <div class="uc-grid">
+      <div class="uc search reveal">
+        <div class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="#1A6B8A" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
+        <h3>AI as Search Engine</h3>
+        <p class="uc-tag">Synthesized answers, not a list of links</p>
+        <p class="desc">Orient yourself fast on unfamiliar topics. Get plain-language summaries of research, policy context, and complex reports.</p>
+        <div class="block ex"><span class="bl">For ed consultants</span>Heading into an MTSS meeting, ask: &ldquo;Give me a plain-language summary of what research says about effective Tier 2 interventions in middle school.&rdquo; Two minutes replaces forty-five minutes of skimming.</div>
+        <div class="block caution"><span class="bl">Watch out for</span>Fabricated citations. AI invents sources that look real. Use it for orientation; independently verify anything that goes in a deliverable.</div>
+      </div>
+
+      <div class="uc partner reveal">
+        <div class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="#3E89A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12h.01M12 12h.01M16 12h.01"/><path d="M21 12c0 4.4-4 8-9 8a9.9 9.9 0 0 1-4-.8L3 21l1.9-4.4A7.3 7.3 0 0 1 3 12c0-4.4 4-8 9-8s9 3.6 9 8z"/></svg></div>
+        <h3>AI as Thought Partner</h3>
+        <p class="uc-tag">Pushback on demand</p>
+        <p class="desc">Pressure-test ideas, surface blind spots, generate alternatives, and rehearse difficult conversations before you have them.</p>
+        <div class="block ex"><span class="bl">For ed consultants</span>Share a draft agenda for a PD session with a resistant staff and ask: &ldquo;What assumptions am I making about this audience? Where will I lose them? What would you change and why?&rdquo;</div>
+        <div class="block caution"><span class="bl">Watch out for</span>Flattery. AI agrees by default. If you lead with &ldquo;my plan is good, right?&rdquo; you will get a yes. Ask it to steelman the opposing view instead.</div>
+      </div>
+
+      <div class="uc chief reveal">
+        <div class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="#E85D26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <h3>AI as Chief of Staff</h3>
+        <p class="uc-tag">Delegate the mechanical, keep the judgment</p>
+        <p class="desc">With Claude Desktop, skills, and automations, hand off logistics: meeting prep, email drafts, calendar work, document organization, daily briefings.</p>
+        <div class="block ex"><span class="bl">For ed consultants</span>A morning briefing, every day, on one command: Claude checks your email and flags what needs a response, reviews today&rsquo;s calendar and pulls relevant notes from previous meetings with each group, then hands you a prioritized to-do list for the day. Set it up once as a skill, and your first fifteen minutes of scattered tab-checking becomes a single two-minute read.</div>
+        <div class="block caution"><span class="bl">Watch out for</span>Automation without oversight, which creates errors at scale. Keep a review step before anything goes out under your name. The model works when you stay in the approval seat.</div>
+      </div>
+
+      <div class="uc creator reveal">
+        <div class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="#F4854F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/></svg></div>
+        <h3>AI as Creator</h3>
+        <p class="uc-tag">Build what used to require specialists</p>
+        <p class="desc">Generate polished documents, interactive tools, dashboards, training sites, and visualizations at a quality floor most of us could not reach alone.</p>
+        <div class="block ex"><span class="bl">For ed consultants</span>After school walkthroughs, feed your notes to Claude and ask for an interactive dashboard: data by classroom, a pattern summary, a recommendations tab. A three-hour PowerPoint becomes a shareable site in thirty minutes.</div>
+        <div class="block caution"><span class="bl">Watch out for</span>Polished-looking weak thinking. Output quality scales with input quality. AI builds the vessel; your expertise still has to fill it.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 6: YOUR TURN ============ -->
+<section id="yourturn">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow on-dark">Part Six &middot; The application block</p>
+      <h2>Which one do you want to try first?</h2>
+      <p class="lede on-dark" style="margin-top:16px">Open a tile, copy a starter prompt, and take it into Claude. Make it yours: swap in your real project, your real stuck point, your real tedious task.</p>
+    </div>
+
+    <div class="tiles">
+      <div class="tile reveal">
+        <button class="tile-head" aria-expanded="false">
+          <span class="th-text"><strong>Search Engine</strong><span>What&rsquo;s something you&rsquo;ve been meaning to look up but haven&rsquo;t had time?</span></span>
+          <span class="chev" aria-hidden="true">+</span>
+        </button>
+        <div class="tile-body"><div class="prompts">
+          <div class="prompt"><p>Give me a plain-language summary of what the research says about [topic in your current engagement]. Include where researchers disagree.</p><button class="copybtn">Copy</button></div>
+          <div class="prompt"><p>I&rsquo;m meeting with a district about [initiative]. Brief me like a smart colleague would: key concepts, common pitfalls, and three questions I should ask them.</p><button class="copybtn">Copy</button></div>
+          <div class="prompt"><p>Explain [education policy or framework] to me at three levels: one sentence, one paragraph, and one page.</p><button class="copybtn">Copy</button></div>
+        </div></div>
+      </div>
+
+      <div class="tile reveal">
+        <button class="tile-head" aria-expanded="false">
+          <span class="th-text"><strong>Thought Partner</strong><span>What&rsquo;s a challenge you&rsquo;re stuck on right now?</span></span>
+          <span class="chev" aria-hidden="true">+</span>
+        </button>
+        <div class="tile-body"><div class="prompts">
+          <div class="prompt"><p>Here&rsquo;s my plan: [describe it]. Don&rsquo;t tell me it&rsquo;s good. Tell me the three biggest assumptions I&rsquo;m making and what happens if each one is wrong.</p><button class="copybtn">Copy</button></div>
+          <div class="prompt"><p>I need to have a hard conversation with [role, no names] about [issue]. Role-play it with me. Play them as skeptical but reasonable.</p><button class="copybtn">Copy</button></div>
+          <div class="prompt"><p>Steelman the opposite of my position: [your position]. Make the strongest honest case against it, then tell me which counterarguments deserve the most weight.</p><button class="copybtn">Copy</button></div>
+        </div></div>
+      </div>
+
+      <div class="tile reveal">
+        <button class="tile-head" aria-expanded="false">
+          <span class="th-text"><strong>Chief of Staff</strong><span>What&rsquo;s the task you keep putting off because it&rsquo;s mechanical and tedious?</span></span>
+          <span class="chev" aria-hidden="true">+</span>
+        </button>
+        <div class="tile-body"><div class="prompts">
+          <div class="prompt"><p>Here are my rough notes from today&rsquo;s meeting: [paste, no confidential details]. In one pass, produce all of it: a clean summary, a client-ready follow-up email, an action item list with owners and deadlines, and a draft agenda for the next meeting. I&rsquo;ll review before anything goes out.</p><button class="copybtn">Copy</button></div>
+          <div class="prompt"><p>Act as my Monday morning chief of staff. Here&rsquo;s everything on my plate this week: [list]. Brief me: top three priorities, what each meeting needs from me, what to batch, and what to decline. Then turn this into a reusable prompt I can paste every Monday.</p><button class="copybtn">Copy</button></div>
+          <div class="prompt"><p>Build me a coffee shop themed interactive to-do list as a single HTML file. My tasks are orders on the menu: adding a task places an order, finishing one stamps the cup. Warm cafe colors, a little personality, and it should work in any browser.</p><button class="copybtn">Copy</button></div>
+          <p class="tile-note">These all work in the regular Claude web app. The full version, where Claude actually reads your calendar and drafts in your inbox, is what Claude Desktop unlocks.</p>
+        </div></div>
+      </div>
+
+      <div class="tile reveal">
+        <button class="tile-head" aria-expanded="false">
+          <span class="th-text"><strong>Creator</strong><span>What&rsquo;s something you wish existed but don&rsquo;t have time to build?</span></span>
+          <span class="chev" aria-hidden="true">+</span>
+        </button>
+        <div class="tile-body"><div class="prompts">
+          <div class="prompt"><p>Build me a one-page interactive HTML resource that explains [concept] to [audience]. Clean, professional, works as a single file I can share as a link.</p><button class="copybtn">Copy</button></div>
+          <div class="prompt"><p>Turn this outline into a polished facilitation guide: [paste outline]. Include timing, talking points, and discussion questions for each segment.</p><button class="copybtn">Copy</button></div>
+          <div class="prompt"><p>Here&rsquo;s anonymized data from a project: [paste]. Build an interactive dashboard with a summary view, a detail view, and a short narrative of the three biggest patterns.</p><button class="copybtn">Copy</button></div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>This site was built with Claude, using the same workflow described in the Creator use case above. The interactive walkthrough demo reflects a real TNTP consulting workflow with fictional data. Model and product details current as of June 2026; in this field, check the date on everything, including this page.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- gateway neural network ---------- */
+  (function(){
+    var gw=document.getElementById('gateway');
+    var canvas=document.getElementById('gwcanvas');
+    if(!gw||!canvas)return;
+    var ctx=canvas.getContext('2d');
+    var W,H,DPR,nodes=[],links=[],signals=[];
+
+    function build(){
+      DPR=Math.min(window.devicePixelRatio||1,2);
+      W=canvas.clientWidth;H=canvas.clientHeight;
+      canvas.width=W*DPR;canvas.height=H*DPR;
+      ctx.setTransform(DPR,0,0,DPR,0,0);
+      nodes=[];links=[];signals=[];
+      var N=W<700?46:84;
+      var cx=W/2,cy=H/2,rx=Math.min(W*.42,560),ry=Math.min(H*.38,360);
+      /* two-lobe brain-ish cluster */
+      for(var i=0;i<N;i++){
+        var lobe=(i%2===0)?-.42:.42;
+        var a=Math.random()*Math.PI*2, r=Math.pow(Math.random(),.6);
+        nodes.push({
+          x:cx+lobe*rx+Math.cos(a)*r*rx*.55,
+          y:cy+Math.sin(a)*r*ry*.85+ (Math.random()-.5)*30,
+          r:1.5+Math.random()*2.6,
+          tw:Math.random()*Math.PI*2,
+          sp:.4+Math.random()*.9
+        });
+      }
+      /* link nearest neighbors */
+      for(var i=0;i<N;i++){
+        var d=[];
+        for(var j=0;j<N;j++){ if(i===j)continue;
+          var dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y;
+          d.push({j:j,dist:dx*dx+dy*dy});
+        }
+        d.sort(function(a,b){return a.dist-b.dist;});
+        for(var k=0;k<3;k++){
+          var j=d[k].j;
+          if(i<j) links.push({a:i,b:j,seed:Math.random()});
+        }
+      }
+      links.sort(function(a,b){return a.seed-b.seed;});
+    }
+
+    var prog=0, raf=null, t0=performance.now();
+    function draw(now){
+      var t=(now-t0)/1000;
+      ctx.clearRect(0,0,W,H);
+      /* p phases: 0-.25 dots appear | .2-.65 links draw | .55-1 signals + glow */
+      var dotP=Math.min(prog/.25,1);
+      var linkP=Math.max(0,Math.min((prog-.2)/.45,1));
+      var sigP=Math.max(0,Math.min((prog-.55)/.45,1));
+
+      /* links */
+      var nVis=Math.floor(links.length*linkP);
+      for(var i=0;i<nVis;i++){
+        var L=links[i],A=nodes[L.a],B=nodes[L.b];
+        /* last link in the batch draws partially for a growing feel */
+        var frac=(i===nVis-1)?(links.length*linkP)%1||1:1;
+        var ex=A.x+(B.x-A.x)*frac, ey=A.y+(B.y-A.y)*frac;
+        ctx.strokeStyle='rgba(95,168,196,'+(0.10+sigP*0.14)+')';
+        ctx.lineWidth=1;
+        ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(ex,ey);ctx.stroke();
+      }
+      /* traveling signals once network is live */
+      if(sigP>0){
+        if(signals.length<14 && Math.random()<.3){
+          var L=links[Math.floor(Math.random()*nVis||1)];
+          if(L)signals.push({l:L,k:0,v:.008+Math.random()*.014});
+        }
+        for(var s=signals.length-1;s>=0;s--){
+          var sg=signals[s];sg.k+=sg.v;
+          if(sg.k>=1){signals.splice(s,1);continue;}
+          var A=nodes[sg.l.a],B=nodes[sg.l.b];
+          var x=A.x+(B.x-A.x)*sg.k, y=A.y+(B.y-A.y)*sg.k;
+          ctx.fillStyle='rgba(232,93,38,'+(.85*sigP)+')';
+          ctx.beginPath();ctx.arc(x,y,2.2,0,7);ctx.fill();
+        }
+      }
+      /* nodes */
+      var nDots=Math.floor(nodes.length*dotP);
+      for(var i=0;i<nDots;i++){
+        var n=nodes[i];
+        var tw=.55+.45*Math.sin(t*n.sp+n.tw);
+        var warm=sigP;
+        ctx.fillStyle='rgba('+Math.round(95+warm*137)+','+Math.round(168-warm*75)+','+Math.round(196-warm*158)+','+(0.5+tw*0.5)+')';
+        ctx.beginPath();ctx.arc(n.x,n.y,n.r*(1+sigP*tw*.4),0,7);ctx.fill();
+      }
+      raf=requestAnimationFrame(draw);
+    }
+
+    var beats=gw.querySelectorAll('.gw-beat');
+    /* each beat: [fadeInStart, fullOn, fadeOutStart, gone] across prog 0..1 */
+    var windows=[[.00,.06,.16,.25],[.25,.31,.41,.50],[.50,.56,.66,.76],[.76,.84,.98,1.01]];
+    function ramp(p,w){
+      if(p<=w[0]||p>=w[3])return 0;
+      if(p<w[1])return (p-w[0])/(w[1]-w[0]);
+      if(p<=w[2])return 1;
+      return 1-(p-w[2])/(w[3]-w[2]);
+    }
+    function setBeats(){
+      beats.forEach(function(b,i){
+        b.style.opacity=ramp(prog,windows[i]).toFixed(3);
+      });
+    }
+    function onScrollGW(){
+      var rect=gw.getBoundingClientRect();
+      var total=gw.offsetHeight-window.innerHeight;
+      prog=Math.max(0,Math.min(-rect.top/total,1));
+      setBeats();
+    }
+
+    if(prefersReduced){
+      gw.classList.add('gw-static');
+      build();prog=1;
+      /* one static frame */
+      ctx.clearRect(0,0,W,H);
+      links.forEach(function(L){var A=nodes[L.a],B=nodes[L.b];ctx.strokeStyle='rgba(95,168,196,.2)';ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(B.x,B.y);ctx.stroke();});
+      nodes.forEach(function(n){ctx.fillStyle='rgba(232,150,100,.8)';ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,7);ctx.fill();});
+      beats.forEach(function(b){b.style.opacity=1;});
+    }else{
+      build();
+      window.addEventListener('scroll',onScrollGW,{passive:true});
+      window.addEventListener('resize',function(){build();},{passive:true});
+      onScrollGW();
+      raf=requestAnimationFrame(draw);
+    }
+  })();
+
+  /* reveal on scroll */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('vis'); io.unobserve(e.target);} });
+  },{threshold:.18});
+  document.querySelectorAll('.reveal,.tl-item,.layer').forEach(function(el){ io.observe(el); });
+
+  /* progress bar + section nav */
+  var bar=document.getElementById('progbar');
+  var navLinks=document.querySelectorAll('#sectnav a');
+  var sects={};
+  navLinks.forEach(function(a){ sects[a.dataset.sect]=document.getElementById(a.dataset.sect); });
+  function onScroll(){
+    var h=document.documentElement;
+    var p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+    var cur=null, y=h.scrollTop+window.innerHeight*0.45;
+    for(var k in sects){ if(sects[k] && sects[k].offsetTop<=y) cur=k; }
+    navLinks.forEach(function(a){ a.classList.toggle('active',a.dataset.sect===cur); });
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  /* star counter */
+  var sc=document.getElementById('starcount'), counted=false;
+  var scIO=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting && !counted){
+        counted=true;
+        if(prefersReduced){ sc.textContent='149,000'; return; }
+        var start=null, dur=2200, target=149000;
+        function step(t){
+          if(!start)start=t;
+          var k=Math.min((t-start)/dur,1);
+          var eased=1-Math.pow(1-k,3);
+          sc.textContent=Math.floor(eased*target).toLocaleString('en-US');
+          if(k<1)requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+    });
+  },{threshold:.5});
+  scIO.observe(sc);
+
+  /* openclaw feed staggered */
+  var feed=document.getElementById('ocfeed');
+  var feedIO=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        var lines=feed.querySelectorAll('.oc-line');
+        lines.forEach(function(l,i){ setTimeout(function(){ l.classList.add('vis'); }, prefersReduced?0:i*450); });
+        feedIO.unobserve(feed);
+      }
+    });
+  },{threshold:.3});
+  feedIO.observe(feed);
+
+  /* live demo */
+  (function(){
+    /* fictional classrooms: [room, band, culture, ca1, ca2, ca3] */
+    var rooms=[
+      ['101','es',3.2,3.0,2.6,2.5],['102','es',3.0,2.8,2.4,2.3],['103','es',3.4,3.2,2.8,2.7],
+      ['104','es',2.8,2.6,2.2,2.1],['105','es',3.1,2.9,2.5,2.4],['106','es',3.1,2.6,2.5,2.4],
+      ['201','ms',2.8,2.1,1.0,1.6],['202','ms',2.6,1.9,0.9,1.5],['203','ms',2.9,2.2,1.2,1.7],
+      ['204','ms',3.0,2.6,2.6,2.4],['205','ms',2.5,1.8,0.8,1.4],['206','ms',2.6,2.0,1.0,1.6]
+    ];
+    var BRIGHT='204';
+    var view='bars', band='all';
+    var notes={
+      'bars-all':'Schoolwide, Core Action 2 (questions and tasks) is the lowest domain. But averages hide the story. Click a grade band, or switch to Every Classroom.',
+      'bars-es':'Grades 3\u20135 hold up across all four domains. Core Action 2 at 2.5 suggests curriculum-embedded tasks are mostly being kept intact.',
+      'bars-ms':'There it is. Core Action 2 falls to 1.3 in grades 6\u20138. The schoolwide average was hiding a middle grades task rigor problem. Now switch views.',
+      'heat-all':'All twelve classrooms at once. Read the Core Action 2 column and the middle grades pattern is unmistakable. Tip: column headers sort, Rm resets, and the grade tabs filter. Try sorting by CA 2.',
+      'heat-es':'Grades 3\u20135, classroom by classroom: consistent, no outliers. This consistency is itself a finding worth naming for the school.',
+      'heat-ms':'One classroom is bucking the trend. Room 204 scores 2.6 on Core Action 2 while every neighbor sits near 1.0. On a slide, that teacher is invisible. Here, they are the school\u2019s best PD asset.'
+    };
+    function avg(b){
+      var set=rooms.filter(function(r){return b==='all'||r[1]===b;});
+      var out=[0,0,0,0];
+      set.forEach(function(r){for(var i=0;i<4;i++)out[i]+=r[i+2];});
+      return out.map(function(v){return v/set.length;});
+    }
+    function heatColor(s){
+      /* 1->4 across orange, amber, light teal, teal */
+      var stops=[[232,93,38],[237,180,88],[95,168,196],[26,107,138]];
+      var k=Math.max(0,Math.min((s-1)/3,1))*3;
+      var i=Math.min(Math.floor(k),2), f=k-i;
+      var a=stops[i],b2=stops[i+1];
+      return 'rgb('+Math.round(a[0]+(b2[0]-a[0])*f)+','+Math.round(a[1]+(b2[1]-a[1])*f)+','+Math.round(a[2]+(b2[2]-a[2])*f)+')';
+    }
+    function renderBars(){
+      var d=avg(band);
+      for(var i=0;i<4;i++){
+        document.getElementById('b'+(i+1)).style.width=(d[i]/4*100)+'%';
+        document.getElementById('v'+(i+1)).textContent=d[i].toFixed(1);
+      }
+    }
+    var hm=document.getElementById('hmgrid');
+    var sortCol=-1, sortDir=-1; /* sortCol -1 = visit order; dir -1 desc, 1 asc */
+    function renderHeat(){
+      var cols=['Culture','CA 1','CA 2','CA 3'];
+      var set=rooms.filter(function(r){return band==='all'||r[1]===band;});
+      if(sortCol>=0){set=set.slice().sort(function(a,b){return (a[sortCol+2]-b[sortCol+2])*sortDir;});}
+      var html='<button class="hm-h hm-sort'+(sortCol<0?' active':'')+'" data-col="-1" title="Reset to visit order">Rm</button>';
+      for(var i=0;i<4;i++){
+        var act=sortCol===i;
+        html+='<button class="hm-h hm-sort'+(act?' active':'')+'" data-col="'+i+'" title="Sort by '+cols[i]+'">'+cols[i]+(act?(sortDir<0?' \u25BE':' \u25B4'):'')+'</button>';
+      }
+      set.forEach(function(r){
+        var star=r[0]===BRIGHT;
+        html+='<div class="hm-rl"><b>Rm '+r[0]+'</b></div>';
+        for(var i=0;i<4;i++){
+          var s=r[i+2];
+          html+='<div class="hm-cell" style="background:'+heatColor(s)+'" title="Room '+r[0]+' \u00b7 '+cols[i]+': '+s.toFixed(1)+'">'+s.toFixed(1)+(star&&i===2?' \u2605':'')+'</div>';
+        }
+      });
+      hm.innerHTML=html;
+    }
+    hm.addEventListener('click',function(e){
+      var h=e.target.closest('.hm-h');if(!h)return;
+      var c=parseInt(h.dataset.col,10);
+      if(c<0){sortCol=-1;sortDir=-1;}
+      else if(sortCol===c){sortDir*=-1;}
+      else{sortCol=c;sortDir=-1;}
+      renderHeat();
+    });
+    function render(){
+      document.getElementById('barsview').hidden=(view!=='bars');
+      document.getElementById('heatview').hidden=(view!=='heat');
+      if(view==='bars')renderBars();else renderHeat();
+      document.getElementById('insight').textContent=notes[view+'-'+band];
+    }
+    document.querySelectorAll('.vt-btn').forEach(function(b){
+      b.addEventListener('click',function(){
+        document.querySelectorAll('.vt-btn').forEach(function(x){x.classList.remove('active');});
+        b.classList.add('active');view=b.dataset.view;render();
+      });
+    });
+    document.querySelectorAll('.room-btn').forEach(function(b){
+      b.addEventListener('click',function(){
+        document.querySelectorAll('.room-btn').forEach(function(x){x.classList.remove('active');});
+        b.classList.add('active');band=b.dataset.room;render();
+      });
+    });
+    render();
+  })();
+
+  /* quiz */
+  document.querySelectorAll('.qcard').forEach(function(card){
+    var answer=card.dataset.answer;
+    var verdict=card.querySelector('.qverdict');
+    card.querySelectorAll('.qbtn').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        if(card.classList.contains('done'))return;
+        card.classList.add('done');
+        var pickedYes=btn.classList.contains('yes');
+        var correct=(answer==='yes')===pickedYes;
+        btn.classList.add(correct?'picked-right':'picked-wrong');
+        if(!correct){
+          var other=card.querySelector(answer==='yes'?'.qbtn.yes':'.qbtn.no');
+          other.classList.add('picked-right');
+        }
+        verdict.classList.add('show');
+      });
+    });
+  });
+
+  /* tiles */
+  document.querySelectorAll('.tile').forEach(function(tile){
+    var head=tile.querySelector('.tile-head');
+    head.addEventListener('click',function(){
+      var open=tile.classList.toggle('open');
+      head.setAttribute('aria-expanded',open?'true':'false');
+    });
+  });
+
+  /* copy buttons */
+  document.querySelectorAll('.copybtn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var text=btn.parentElement.querySelector('p').textContent;
+      function done(){ btn.textContent='Copied'; btn.classList.add('copied'); setTimeout(function(){btn.textContent='Copy';btn.classList.remove('copied');},1800); }
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done).catch(function(){fallback();}); }
+      else fallback();
+      function fallback(){
+        var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();
+        try{document.execCommand('copy');done();}catch(e){}
+        document.body.removeChild(ta);
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
