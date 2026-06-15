@@ -165,6 +165,30 @@ section{position:relative}
 #provocation p.big{font-family:var(--serif);font-size:clamp(2rem,5.4vw,4.2rem);max-width:20ch;margin:0 auto;line-height:1.18}
 #provocation p.big em{color:var(--orange);font-style:italic}
 
+/* ---------- now transition ---------- */
+#nowshift{height:170vh;background:#050d18;color:#fff;position:relative;isolation:isolate}
+#nowshift::before{content:"";position:absolute;inset:-20%;background-image:linear-gradient(rgba(95,168,196,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(95,168,196,.08) 1px,transparent 1px);background-size:54px 54px;transform:perspective(620px) rotateX(58deg) translateY(11%);transform-origin:center bottom;animation:gridglide 9s linear infinite}
+#nowshift::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,13,24,.08),rgba(5,13,24,.78) 70%,#050d18),repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 5px);pointer-events:none}
+.now-rain{position:absolute;inset:0;display:grid;grid-template-columns:repeat(12,1fr);opacity:.5;mix-blend-mode:screen}
+.now-rain span{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.74rem;line-height:1.9;color:rgba(95,168,196,.62);writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;justify-self:center;animation:rainfall 12s linear infinite;filter:drop-shadow(0 0 8px rgba(95,168,196,.35))}
+.now-rain span:nth-child(2n){color:rgba(232,93,38,.54);animation-duration:15s}
+.now-rain span:nth-child(3n){animation-delay:-7s}
+.now-rain span:nth-child(4n){animation-duration:18s;animation-delay:-4s}
+.now-core{position:sticky;top:0;z-index:2;width:100%;min-height:100vh;text-align:center;padding:18vh 28px;display:flex;flex-direction:column;justify-content:center}
+.now-kicker{font-size:.78rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--teal-light);margin-bottom:22px}
+.now-core h2{font-size:clamp(2.5rem,7vw,6rem);max-width:10ch;margin:0 auto;line-height:.98;text-shadow:0 0 28px rgba(95,168,196,.32)}
+.now-core h2 span{display:block;color:var(--orange-soft);font-style:italic;animation:textpulse 2.8s ease-in-out infinite}
+.now-core p{margin:28px auto 0;max-width:520px;color:#B8C6D4;font-size:1.03rem}
+.now-signal{margin:40px auto 0;width:min(520px,78vw);height:2px;background:linear-gradient(90deg,transparent,var(--teal-light),var(--orange),transparent);position:relative;overflow:hidden}
+.now-signal::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,#fff,transparent);transform:translateX(-100%);animation:signalrun 2.4s ease-in-out infinite}
+@keyframes gridglide{from{background-position:0 0,0 0}to{background-position:0 54px,54px 0}}
+@keyframes rainfall{from{transform:translateY(-55%)}to{transform:translateY(55%)}}
+@keyframes textpulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.3)}}
+@keyframes signalrun{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+@media (prefers-reduced-motion:reduce){
+  #nowshift::before,.now-rain span,.now-core h2 span,.now-signal::after{animation:none!important}
+}
+
 /* ---------- landscape ---------- */
 #landscape{padding:14vh 0;background:var(--paper)}
 .labs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin-top:54px}
@@ -195,32 +219,48 @@ section{position:relative}
 .lab li strong{color:var(--navy)}
 .lab .know{margin-top:16px;background:var(--paper);border-radius:10px;padding:13px 15px;font-size:.85rem;color:#444c56}
 .lab .know b{color:var(--navy)}
+.source-link{display:inline-block;margin-top:10px;font-size:.78rem;font-weight:700;color:var(--teal);text-decoration:none}
+.source-link:hover{text-decoration:underline}
+#openclaw .source-link{color:var(--orange-soft)}
+
+/* ---------- glossary ---------- */
+#glossary{padding:12vh 0;background:var(--paper-dim)}
+.gloss-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:42px}
+.gloss-item{background:#fff;border:1px solid #DCD7CC;border-radius:12px;padding:20px 22px}
+.gloss-item h3{font-family:var(--sans);font-weight:800;font-size:.96rem;color:var(--navy);margin-bottom:6px}
+.gloss-item p{font-size:.88rem;color:#4b5560}
 
 /* ---------- split screen ---------- */
 #split{padding:13vh 0;background:var(--navy);color:#fff}
-.split-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:54px;align-items:stretch}
+.split-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:26px;margin-top:54px;align-items:stretch}
 .split-pane{border-radius:16px;padding:34px 30px;min-height:430px;position:relative;overflow:hidden}
 .split-pane.web{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)}
-.split-pane.desk{background:linear-gradient(150deg,rgba(232,93,38,.16),rgba(232,93,38,.05));border:1px solid rgba(232,93,38,.45)}
+.split-pane.desk{background:linear-gradient(150deg,rgba(0,120,212,.2),rgba(0,120,212,.07));border:1px solid rgba(95,168,196,.5);box-shadow:0 24px 60px rgba(0,0,0,.18)}
 .split-pane h3{font-size:1.6rem;margin-bottom:4px}
 .split-pane .tagline{font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:22px}
 .web .tagline{color:#8FA0B3}
-.desk .tagline{color:var(--orange-soft)}
+.desk .tagline{color:#78C7EA}
 .chatmock{background:var(--navy-deep);border-radius:10px;border:1px solid rgba(255,255,255,.12);padding:16px;font-size:.82rem;color:#C7D0DB}
 .chatmock .bub{background:rgba(255,255,255,.08);border-radius:8px;padding:9px 12px;margin-bottom:9px;max-width:88%}
 .chatmock .bub.user{background:rgba(26,107,138,.35);margin-left:auto}
 .iso-note{margin-top:18px;font-size:.88rem;color:#8FA0B3;line-height:1.55}
 .iso-note li{margin:7px 0 7px 18px}
-.hub{position:relative;height:240px;margin-top:8px}
-.hub-core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:86px;height:86px;border-radius:22px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:.74rem;text-align:center;line-height:1.25;box-shadow:0 0 0 8px rgba(232,93,38,.18);z-index:2}
-.hub-sat{position:absolute;width:74px;padding:8px 4px;border-radius:10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#E5EBF2;text-align:center;font-size:.66rem;font-weight:600}
-.hub-line{position:absolute;height:2px;background:linear-gradient(90deg,rgba(232,93,38,.85),rgba(232,93,38,.1));transform-origin:left center;animation:flow 2.6s linear infinite}
+.hub{position:relative;height:260px;margin-top:8px}
+.hub-core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:112px;height:92px;border-radius:22px;background:#0078D4;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:.73rem;text-align:center;line-height:1.22;box-shadow:0 0 0 8px rgba(0,120,212,.18),0 18px 42px rgba(0,120,212,.28);z-index:2}
+.hub-sat{position:absolute;width:82px;padding:8px 4px;border-radius:10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#E5EBF2;text-align:center;font-size:.66rem;font-weight:600}
+.hub-line{position:absolute;height:2px;background:linear-gradient(90deg,rgba(95,168,196,.9),rgba(0,120,212,.12));transform-origin:left center;animation:flow 2.6s linear infinite}
 @keyframes flow{0%{opacity:.35}50%{opacity:1}100%{opacity:.35}}
 .desk-note{margin-top:18px;font-size:.88rem;color:#E5D6CC;line-height:1.55}
 .desk-note li{margin:7px 0 7px 18px}
+.copilot-badge{display:inline-flex;align-items:center;gap:8px;margin:4px 0 20px;background:rgba(0,120,212,.2);border:1px solid rgba(120,199,234,.45);border-radius:999px;color:#D9EEF6;font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:7px 12px}
+.copilot-badge::before{content:"";width:7px;height:7px;border-radius:50%;background:#78C7EA;box-shadow:0 0 12px rgba(120,199,234,.85)}
+.copilot-uses{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.copilot-use{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:13px 14px}
+.copilot-use strong{display:block;font-size:.82rem;color:#fff;margin-bottom:3px}
+.copilot-use span{display:block;font-size:.76rem;color:#B9C5D2;line-height:1.45}
 .split-punch{margin-top:44px;text-align:center;font-family:var(--serif);font-size:clamp(1.3rem,2.6vw,1.9rem);max-width:34ch;margin-left:auto;margin-right:auto}
 .split-punch em{color:var(--orange-soft)}
-@media(max-width:820px){.split-grid{grid-template-columns:1fr}}
+@media(max-width:820px){.split-grid{grid-template-columns:1fr}.copilot-uses{grid-template-columns:1fr}}
 
 /* ---------- unlock layers ---------- */
 #unlock{padding:14vh 0;background:var(--paper)}
@@ -332,6 +372,13 @@ section{position:relative}
 .checklist h3{color:var(--orange-soft);font-size:1.45rem;margin-bottom:14px}
 .checklist ol{margin-left:20px;color:#E5EBF2}
 .checklist li{margin:9px 0;font-size:1rem}
+.decision-tree{margin-top:46px;background:#fff;color:var(--ink);border-radius:14px;padding:28px 30px;max-width:820px}
+.decision-tree h3{font-size:1.5rem;color:var(--navy);margin-bottom:14px}
+.decision-tree ol{margin-left:20px}
+.decision-tree li{margin:10px 0;color:#444c56}
+.decision-tree a{font-weight:700}
+.source-note{margin-top:18px;font-size:.82rem;color:#AEB8C2;max-width:760px}
+.source-note a{color:#D9EEF6}
 
 /* ---------- four use cases ---------- */
 #fourways{padding:14vh 0;background:var(--paper)}
@@ -368,9 +415,10 @@ section{position:relative}
 .tile.open .chev{transform:rotate(45deg);border-color:var(--orange);color:var(--orange-soft)}
 .tile-body{max-height:0;overflow:hidden;transition:max-height .45s ease}
 .tile.open .tile-body{max-height:820px}
-.prompts{padding:0 28px 26px;display:flex;flex-direction:column;gap:10px}
-.prompt{background:var(--navy-deep);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:13px 15px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
-.prompt p{font-size:.86rem;color:#D7DFE8;flex:1}
+.prompts{padding:0 28px 26px;display:flex;flex-direction:column;gap:12px}
+.prompt{background:var(--navy-deep);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:17px 18px;display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+.prompt p{font-size:.88rem;color:#D7DFE8;flex:1;line-height:1.58}
+.prompt.featured{border-color:rgba(232,93,38,.45);box-shadow:0 10px 24px rgba(0,0,0,.12)}
 .copybtn{flex-shrink:0;background:rgba(232,93,38,.16);color:var(--orange-soft);border:1px solid rgba(232,93,38,.45);border-radius:7px;font-family:var(--sans);font-weight:700;font-size:.72rem;padding:6px 13px;cursor:pointer;transition:all .2s}
 .copybtn:hover{background:var(--orange);color:#fff}
 .copybtn.copied{background:#2E7D5B;border-color:#2E7D5B;color:#fff}
@@ -402,7 +450,7 @@ footer .wrap{max-width:680px}
   <div class="wrap">
     <p class="eyebrow on-dark">AI 101 &middot; A Field Guide for Education Consultants</p>
     <h1>The machines learned to <em>do things.</em><br>Now what?</h1>
-    <p class="lede">You are one scroll away from ninety years of history, one viral lobster, and the four ways this moment changes your work. No jargon. No hype. Just the story, and what to do with it.</p>
+    <p class="lede">You are one scroll away from ninety years of history, one viral lobster, and the four ways this moment changes your work. Jargon translated. Hype filtered. Just the story, and what to do with it.</p>
     <div class="hero-meta">
       <div><strong>90 years</strong>of history in one scroll</div>
       <div><strong>3 labs</strong>shaping the frontier</div>
@@ -552,28 +600,28 @@ footer .wrap{max-width:680px}
   <div class="wrap">
     <p class="oc-kicker reveal">The last week of January 2026</p>
     <h2 class="reveal">Then the internet found it.</h2>
-    <p class="oc-sub reveal">The project, by then called OpenClaw, became the fastest-growing open-source project in GitHub history. For the first time, a mass audience saw what an AI agent actually is: not a chatbot, but a system that acts on your behalf.</p>
+    <p class="oc-sub reveal">The project, by then called OpenClaw, made one idea vivid for a mass audience: an AI agent is not just a chatbot. It is a system that can use tools, remember context, and take steps on your behalf.</p>
 
-    <div class="star-counter" id="starcount" aria-label="149,000 GitHub stars">0</div>
-    <p class="star-label">GitHub stars in a single viral week</p>
+    <div class="star-counter" id="starcount" aria-label="Hundreds of thousands of GitHub stars">0</div>
+    <p class="star-label">GitHub stars by June 2026</p>
 
     <div class="oc-stats reveal">
-      <div class="oc-stat"><strong>2,000,000</strong><span>repository visits in seven days</span></div>
-      <div class="oc-stat"><strong>770,000</strong><span>AI agents spawned on a social network built for them</span></div>
-      <div class="oc-stat"><strong>3 renames</strong><span>in four days after a trademark dispute with Anthropic</span></div>
-      <div class="oc-stat"><strong>#1</strong><span>fastest-growing open-source project ever</span></div>
+      <div class="oc-stat"><strong>Local</strong><span>runs on your own computer</span></div>
+      <div class="oc-stat"><strong>Connected</strong><span>uses tools and services around it</span></div>
+      <div class="oc-stat"><strong>Persistent</strong><span>keeps context across tasks</span></div>
+      <div class="oc-stat"><strong>Riskier</strong><span>because action creates new failure modes</span></div>
     </div>
 
     <div class="oc-feed" id="ocfeed">
-      <div class="oc-line"><span class="d">Nov 2025</span><p>Launches as &ldquo;Clawdbot,&rdquo; a playful nod to Claude. Obscurity.</p></div>
-      <div class="oc-line"><span class="d">Late Jan 2026</span><p>Goes viral. Anthropic&rsquo;s legal team politely requests a name change. Renamed &ldquo;Moltbot&rdquo; the same day, because lobsters molt to grow.</p></div>
-      <div class="oc-line"><span class="d">Three days later</span><p>Renamed again to OpenClaw. &ldquo;The lobster has molted into its final form.&rdquo;</p></div>
-      <div class="oc-line"><span class="d">Weeks later</span><p>Steinberger is hired by OpenAI. NVIDIA announces an enterprise version. China erupts in a &ldquo;raising lobsters&rdquo; craze. Security researchers find serious vulnerabilities in carelessly exposed instances, a preview of the new risks agents bring.</p></div>
+      <div class="oc-line"><span class="d">Nov 2025</span><p>Launches as a side project: a personal AI assistant you can message like a colleague.</p></div>
+      <div class="oc-line"><span class="d">Late Jan 2026</span><p>Goes viral, changes names, and becomes a shorthand for the agent wave.</p></div>
+      <div class="oc-line"><span class="d">The lesson</span><p>People were not excited because it answered questions. They were excited because it could take action, which is both the promise and the risk.</p></div>
     </div>
 
     <div class="oc-why reveal">
       <h3>Why this moment matters</h3>
-      <p>OpenClaw did not go viral because of marketing. It went viral because it worked. Chatbots could summarize, draft, and answer, but you still had to copy, paste, click, and send everything yourself. An agent collapses that entire loop. It feels less like talking to software and more like handing work to a capable assistant. That shift, from AI that talks to AI that acts, is the moment we are living in right now.</p>
+      <p>Chatbots can summarize, draft, and answer, but you still copy, paste, click, and send everything yourself. An agent can collapse parts of that loop. For consultants, this means a future where AI can help assemble materials, update trackers, draft follow-ups, and prepare context across tools. It also means review, permissions, and data boundaries matter more than ever.</p>
+      <a class="source-link" href="https://github.com/openclaw/openclaw" target="_blank" rel="noopener">OpenClaw on GitHub</a>
     </div>
   </div>
 </section>
@@ -582,6 +630,30 @@ footer .wrap{max-width:680px}
 <section id="provocation">
   <div class="wrap">
     <p class="big reveal">We are not watching AI improve.<br>We are watching it <em>change what&rsquo;s possible.</em></p>
+  </div>
+</section>
+
+<!-- ============ TRANSITION TO NOW ============ -->
+<section id="nowshift" aria-label="Transition to the current AI landscape">
+  <div class="now-rain" aria-hidden="true">
+    <span>0101 model shift tokens agents tools context 0101</span>
+    <span>frontier labs search synthesize build act 1010</span>
+    <span>docs meetings decks dashboards copilots 0011</span>
+    <span>reason draft verify protect student data 1100</span>
+    <span>attention transformers chat agents workflows 0110</span>
+    <span>Claude GPT Gemini Copilot context windows 1001</span>
+    <span>prompt iterate review publish adapt 1110</span>
+    <span>sources citations privacy permissions 0001</span>
+    <span>school systems calendars files email tools 1011</span>
+    <span>from talking to building to acting 0100</span>
+    <span>consulting work deliverables judgment trust 1101</span>
+    <span>now now now now now now now now now now</span>
+  </div>
+  <div class="now-core">
+    <p class="now-kicker">So that is the arc</p>
+    <h2>But okay.<span>Where are we now?</span></h2>
+    <p>The history gets us oriented. The next question is simpler, and more useful: who is building this stuff, where does it live, and which tools should an education consultant actually understand?</p>
+    <div class="now-signal" aria-hidden="true"></div>
   </div>
 </section>
 
@@ -602,10 +674,11 @@ footer .wrap{max-width:680px}
         <ul>
           <li><strong>Claude.ai</strong> &middot; web and mobile chat</li>
           <li><strong>Claude Desktop</strong> &middot; AI with access to your files, calendar, and apps</li>
-          <li><strong>Claude Cowork</strong> &middot; an agentic desktop app for knowledge work</li>
+          <li><strong>Claude for work</strong> &middot; team and enterprise access with administrative controls</li>
           <li><strong>Claude Code</strong> &middot; an agent for software work</li>
         </ul>
-        <div class="know"><b>Current flagships:</b> the Claude 5 family arrived in June 2026, alongside the Claude 4 line (Opus, Sonnet, Haiku).</div>
+        <div class="know"><b>Current flagships:</b> Claude Fable 5 is Anthropic&rsquo;s most capable widely released model; Claude Mythos 5 is limited availability for approved customers. Claude Opus, Sonnet, and Haiku remain the everyday model families.</div>
+        <a class="source-link" href="https://platform.claude.com/docs/en/about-claude/models/overview" target="_blank" rel="noopener">Official model docs</a>
       </div>
 
       <div class="lab openai reveal">
@@ -617,7 +690,8 @@ footer .wrap{max-width:680px}
           <li><strong>Codex</strong> &middot; an autonomous coding agent that works in the background</li>
           <li><strong>OpenAI API</strong> &middot; powers thousands of other products</li>
         </ul>
-        <div class="know"><b>Current flagship:</b> GPT-5.5, released April 2026. OpenAI also hired OpenClaw&rsquo;s creator to build next-generation agents.</div>
+        <div class="know"><b>Current flagship:</b> GPT-5.5, OpenAI&rsquo;s flagship for complex reasoning and coding. OpenAI also builds agentic tools like Codex for software work.</div>
+        <a class="source-link" href="https://developers.openai.com/api/docs/models" target="_blank" rel="noopener">Official model docs</a>
       </div>
 
       <div class="lab google reveal">
@@ -629,7 +703,8 @@ footer .wrap{max-width:680px}
           <li><strong>NotebookLM</strong> &middot; a standout research tool that works only from sources you give it</li>
           <li><strong>Gemini Spark</strong> &middot; a cloud-based agent that works around the clock</li>
         </ul>
-        <div class="know"><b>Current flagship:</b> Gemini 3.1 Pro, with the fast and inexpensive 3.5 Flash beside it.</div>
+        <div class="know"><b>Current models:</b> Gemini 3.1 Pro for complex work, with Gemini 3.5 Flash for faster sustained performance on agentic and coding tasks.</div>
+        <a class="source-link" href="https://ai.google.dev/gemini-api/docs/models" target="_blank" rel="noopener">Official model docs</a>
       </div>
 
       <div class="lab microsoft reveal">
@@ -648,6 +723,7 @@ footer .wrap{max-width:680px}
             <h4>Why your employer points you here</h4>
             <p>When you use Copilot through a work account, your prompts and files stay inside your organization&rsquo;s protected environment. They are not used to train models, and they are covered by your org&rsquo;s data agreements with Microsoft. Remember the &ldquo;what happens next depends on the tool&rdquo; step coming up in the responsible use section: Copilot under a work account is the approved-tool side of that line. That is why many organizations, including ours, make it the default for work containing sensitive content.</p>
             <p class="ms-trade">The honest tradeoff: Copilot is the safest place for client work, while the standalone lab apps often get new capabilities first. Knowing both is the point of this page.</p>
+            <a class="source-link" href="https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-privacy" target="_blank" rel="noopener">Microsoft privacy docs</a>
           </div>
         </div>
       </div>
@@ -655,13 +731,32 @@ footer .wrap{max-width:680px}
   </div>
 </section>
 
-<!-- ============ SPLIT: WEB VS DESKTOP ============ -->
+<!-- ============ GLOSSARY ============ -->
+<section id="glossary">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow">A few words you will hear</p>
+      <h2 class="section-title">Tiny Glossary</h2>
+      <p class="lede">You do not need the technical version of these terms to start using AI well. You just need enough shared language to know what people are talking about.</p>
+    </div>
+    <div class="gloss-grid">
+      <div class="gloss-item reveal"><h3>Model</h3><p>The underlying AI system. ChatGPT, Claude, Gemini, and Copilot are products that give you access to models.</p></div>
+      <div class="gloss-item reveal"><h3>Prompt</h3><p>The instruction you give the AI. Better prompts include context, the task, constraints, and the kind of output you want.</p></div>
+      <div class="gloss-item reveal"><h3>Context</h3><p>The information the AI can see right now: your prompt, pasted text, uploaded files, or connected work data.</p></div>
+      <div class="gloss-item reveal"><h3>Hallucination</h3><p>A confident answer that is wrong or invented. This is why citations, quotes, policy claims, and data analysis need review.</p></div>
+      <div class="gloss-item reveal"><h3>Agent</h3><p>An AI system that can take steps for you: search, click, write files, use tools, or run a workflow with supervision.</p></div>
+      <div class="gloss-item reveal"><h3>Vibe Coding</h3><p>Building software by describing what you want in plain language and iterating with AI, even if you are not a programmer.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SPLIT: WEB VS WORKBENCH ============ -->
 <section id="split">
   <div class="wrap">
     <div class="reveal">
       <p class="eyebrow on-dark">The shift that matters most</p>
-      <h2 class="section-title">A Browser Tab vs. a Desk</h2>
-      <p class="lede on-dark">The biggest change of the past year is not any single model. It is where AI lives. The same intelligence behaves completely differently depending on what it can reach.</p>
+      <h2 class="section-title">A Browser Tab vs. Your Workbench</h2>
+      <p class="lede on-dark">The biggest change of the past year is not any single model. It is where AI lives. For our work, the safest default is Microsoft 365 Copilot, because it sits inside the tools and protections our organization already uses.</p>
     </div>
 
     <div class="split-grid">
@@ -683,29 +778,36 @@ footer .wrap{max-width:680px}
       </div>
 
       <div class="split-pane desk reveal">
-        <h3>The Desktop App</h3>
-        <p class="tagline">A capable assistant</p>
+        <h3>Microsoft 365 Copilot</h3>
+        <p class="tagline">The approved workbench</p>
+        <div class="copilot-badge">Start here for client work</div>
         <div class="hub" aria-hidden="true">
           <div class="hub-line" style="left:50%;top:50%;width:32%;transform:rotate(-32deg)"></div>
           <div class="hub-line" style="left:50%;top:50%;width:34%;transform:rotate(28deg);animation-delay:.6s"></div>
           <div class="hub-line" style="left:50%;top:50%;width:33%;transform:rotate(155deg);animation-delay:1.2s"></div>
           <div class="hub-line" style="left:50%;top:50%;width:31%;transform:rotate(208deg);animation-delay:1.8s"></div>
-          <div class="hub-core">Claude<br>Desktop</div>
-          <div class="hub-sat" style="right:2%;top:6%">Your files</div>
-          <div class="hub-sat" style="right:0;bottom:10%">Calendar</div>
-          <div class="hub-sat" style="left:2%;bottom:6%">Email</div>
-          <div class="hub-sat" style="left:0;top:10%">Skills &amp; automations</div>
+          <div class="hub-core">Microsoft<br>365<br>Copilot</div>
+          <div class="hub-sat" style="right:2%;top:6%">Word</div>
+          <div class="hub-sat" style="right:0;bottom:10%">Excel</div>
+          <div class="hub-sat" style="left:2%;bottom:6%">Teams</div>
+          <div class="hub-sat" style="left:0;top:10%">Outlook</div>
         </div>
         <ul class="desk-note">
-          <li>Reads and writes files on your computer</li>
-          <li>Connects to calendar, email, and the tools you work in</li>
-          <li>Runs multi-step workflows while you do something else</li>
-          <li>Remembers context across sessions</li>
+          <li>Works inside the Microsoft tools where consulting work already lives</li>
+          <li>Can use work context like files, meetings, chats, and email when permissions allow</li>
+          <li>Keeps client-sensitive work inside the approved enterprise environment</li>
+          <li>Turns AI from a separate tab into a layer across your daily workflow</li>
         </ul>
+        <div class="copilot-uses" aria-label="Copilot use cases for education consultants">
+          <div class="copilot-use"><strong>Meeting prep</strong><span>Summarize prior Teams meetings, pull open questions, and draft a prep brief.</span></div>
+          <div class="copilot-use"><strong>Follow-up</strong><span>Turn notes into action items, owner lists, and client-ready email drafts.</span></div>
+          <div class="copilot-use"><strong>Document work</strong><span>Draft, tighten, and restructure Word memos, proposals, and facilitation guides.</span></div>
+          <div class="copilot-use"><strong>Data sensemaking</strong><span>Ask questions of Excel data, spot patterns, and create first-pass summaries.</span></div>
+        </div>
       </div>
     </div>
 
-    <p class="split-punch reveal">The web app helps you think.<br>The desktop app helps you <em>do.</em></p>
+    <p class="split-punch reveal">The web app helps you think.<br>Copilot helps you work <em>where the work already lives.</em></p>
   </div>
 </section>
 
@@ -733,7 +835,7 @@ footer .wrap{max-width:680px}
       </div>
       <div class="layer">
         <div class="yrs">2025&ndash;now</div>
-        <div><h3>Acting<span class="layer-flag watch">Worth watching</span></h3><p>AI agents execute multi-step workflows across apps with minimal supervision. OpenClaw made the potential vivid, and tools like Claude Desktop are making it practical. This layer is arriving fast and getting genuinely useful. It is also not where most of us will start. Start one layer up.</p></div>
+        <div><h3>Acting<span class="layer-flag watch">Worth watching</span></h3><p>AI agents execute multi-step workflows across apps with minimal supervision. OpenClaw made the potential vivid, and workplace tools like Copilot are making parts of it practical. This layer is arriving fast and getting genuinely useful. It is also not where most of us will start. Start one layer up.</p></div>
       </div>
     </div>
 
@@ -773,13 +875,13 @@ footer .wrap{max-width:680px}
         <div class="demo-head"><span>The Interactive</span><span>Click around</span></div>
         <div class="demo-body">
           <div class="view-toggle" role="group" aria-label="Choose a view">
-            <button class="vt-btn active" data-view="bars">Averages</button>
-            <button class="vt-btn" data-view="heat">Every classroom</button>
+            <button class="vt-btn active" data-view="bars" aria-pressed="true">Averages</button>
+            <button class="vt-btn" data-view="heat" aria-pressed="false">Every classroom</button>
           </div>
           <div class="room-btns" role="group" aria-label="Choose a grade band">
-            <button class="room-btn active" data-room="all">Schoolwide</button>
-            <button class="room-btn" data-room="es">Grades 3&ndash;5</button>
-            <button class="room-btn" data-room="ms">Grades 6&ndash;8</button>
+            <button class="room-btn active" data-room="all" aria-pressed="true">Schoolwide</button>
+            <button class="room-btn" data-room="es" aria-pressed="false">Grades 3&ndash;5</button>
+            <button class="room-btn" data-room="ms" aria-pressed="false">Grades 6&ndash;8</button>
           </div>
           <div id="barsview">
             <div class="bar-row"><span class="lbl">Culture</span><div class="bar-track"><div class="bar-fill" id="b1"></div></div><span id="v1"></span></div>
@@ -791,7 +893,7 @@ footer .wrap{max-width:680px}
             <div class="hm-grid" id="hmgrid"></div>
             <div class="hm-legend"><span>1.0</span><span class="grad" aria-hidden="true"></span><span>4.0</span><span class="hm-key">&starf; = bright spot</span></div>
           </div>
-          <div class="live-insight" id="insight"></div>
+          <div class="live-insight" id="insight" aria-live="polite"></div>
         </div>
       </div>
     </div>
@@ -865,7 +967,7 @@ footer .wrap{max-width:680px}
           <button class="qbtn yes">Safe to share</button>
           <button class="qbtn no">Hold off</button>
         </div>
-        <div class="qverdict warn">Hold off. Real student names plus performance data is exactly the category that must never enter an external AI tool. The workaround is easy: strip names and IDs first, or describe the pattern in general terms and ask AI to help you build the analysis approach.</div>
+        <div class="qverdict warn" role="status" aria-live="polite">Hold off. Real student names plus performance data is exactly the category that must never enter an external AI tool. The workaround is easy: strip names and IDs first, or describe the pattern in general terms and ask AI to help you build the analysis approach.</div>
       </div>
 
       <div class="qcard reveal" data-answer="yes">
@@ -875,7 +977,7 @@ footer .wrap{max-width:680px}
           <button class="qbtn yes">Safe to share</button>
           <button class="qbtn no">Hold off</button>
         </div>
-        <div class="qverdict ok">Safe to share. This is your own thinking with no confidential content, the top-left of the chart above. Pressure-testing your plans is one of the highest-value, lowest-risk uses of AI. Pro move: ask it what assumptions you are making and where you might lose the room.</div>
+        <div class="qverdict ok" role="status" aria-live="polite">Safe to share. This is your own thinking with no confidential content, the top-left of the chart above. Pressure-testing your plans is one of the highest-value, lowest-risk uses of AI. Pro move: ask it what assumptions you are making and where you might lose the room.</div>
       </div>
 
       <div class="qcard reveal" data-answer="no">
@@ -885,7 +987,7 @@ footer .wrap{max-width:680px}
           <button class="qbtn yes">Safe to share</button>
           <button class="qbtn no">Hold off</button>
         </div>
-        <div class="qverdict warn">Hold off. A client&rsquo;s confidential document is theirs, not yours, and sharing it with a third-party tool without their knowledge breaches trust even when the tool is secure. Check your org&rsquo;s current AI policy and the client agreement first. When approved enterprise tools with data protections are available, this becomes a different conversation.</div>
+        <div class="qverdict warn" role="status" aria-live="polite">Hold off. A client&rsquo;s confidential document is theirs, not yours, and sharing it with a third-party tool without their knowledge breaches trust even when the tool is secure. Check your org&rsquo;s current AI policy and the client agreement first. When approved enterprise tools with data protections are available, this becomes a different conversation.</div>
       </div>
 
       <div class="qcard reveal" data-answer="no">
@@ -895,8 +997,19 @@ footer .wrap{max-width:680px}
           <button class="qbtn yes">Ship it</button>
           <button class="qbtn no">Verify first</button>
         </div>
-        <div class="qverdict warn">Verify first, always. AI confidently fabricates citations that look completely real: plausible authors, plausible journals, plausible years. Every source goes out under your name and TNTP&rsquo;s. Check that each one exists and says what the AI claims it says.</div>
+        <div class="qverdict warn" role="status" aria-live="polite">Verify first, always. AI confidently fabricates citations that look completely real: plausible authors, plausible journals, plausible years. Every source goes out under your name and TNTP&rsquo;s. Check that each one exists and says what the AI claims it says.</div>
       </div>
+    </div>
+
+    <div class="decision-tree reveal">
+      <h3>A quick decision tree</h3>
+      <ol>
+        <li><strong>Is it public or entirely your own thinking?</strong> Usually safe to use.</li>
+        <li><strong>Does it contain student-level information, names, IDs, IEP details, grades, attendance, behavior, or assessment records?</strong> Do not paste it into an external AI tool.</li>
+        <li><strong>Is it confidential client or personnel information?</strong> Use only an approved enterprise tool, and only if the client agreement and your org policy allow it.</li>
+        <li><strong>Can you fully anonymize or fictionalize it?</strong> Strip names, places, IDs, and identifying details before sharing.</li>
+        <li><strong>Will the output go to a client?</strong> Verify every citation, statistic, quote, and recommendation before it leaves your hands.</li>
+      </ol>
     </div>
 
     <div class="checklist reveal">
@@ -907,6 +1020,7 @@ footer .wrap{max-width:680px}
         <li>Am I using AI to sharpen my expertise, or to substitute for it?</li>
       </ol>
     </div>
+    <p class="source-note reveal">Useful references: <a href="https://studentprivacy.ed.gov/ferpa" target="_blank" rel="noopener">U.S. Department of Education FERPA guidance</a> and <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-privacy" target="_blank" rel="noopener">Microsoft 365 Copilot privacy and security documentation</a>.</p>
   </div>
 </section>
 
@@ -940,10 +1054,10 @@ footer .wrap{max-width:680px}
 
       <div class="uc chief reveal">
         <div class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="#E85D26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
-        <h3>AI as Chief of Staff</h3>
-        <p class="uc-tag">Delegate the mechanical, keep the judgment</p>
-        <p class="desc">With Claude Desktop, skills, and automations, hand off logistics: meeting prep, email drafts, calendar work, document organization, daily briefings.</p>
-        <div class="block ex"><span class="bl">For ed consultants</span>A morning briefing, every day, on one command: Claude checks your email and flags what needs a response, reviews today&rsquo;s calendar and pulls relevant notes from previous meetings with each group, then hands you a prioritized to-do list for the day. Set it up once as a skill, and your first fifteen minutes of scattered tab-checking becomes a single two-minute read.</div>
+        <h3>AI as Productivity Partner</h3>
+        <p class="uc-tag">Turn friction into a system</p>
+        <p class="desc">Use AI to organize messy work, create reusable checklists, build small productivity tools, and turn repeated tasks into lighter workflows.</p>
+        <div class="block ex"><span class="bl">For ed consultants</span>Turn a scattered project week into a usable plan: paste a non-confidential task list and ask AI to group the work, sequence the next steps, identify decisions you need from others, and draft the tracker or tool that would make the work easier.</div>
         <div class="block caution"><span class="bl">Watch out for</span>Automation without oversight, which creates errors at scale. Keep a review step before anything goes out under your name. The model works when you stay in the approval seat.</div>
       </div>
 
@@ -965,7 +1079,7 @@ footer .wrap{max-width:680px}
     <div class="reveal">
       <p class="eyebrow on-dark">Part Six &middot; The application block</p>
       <h2>Which one do you want to try first?</h2>
-      <p class="lede on-dark" style="margin-top:16px">Open a tile, copy a starter prompt, and take it into Claude. Make it yours: swap in your real project, your real stuck point, your real tedious task.</p>
+      <p class="lede on-dark" style="margin-top:16px">Open a tile, copy the prompt, and take it into your approved AI tool. Each one is built to be pasted as-is, then customized with your real project, audience, or data.</p>
     </div>
 
     <div class="tiles">
@@ -975,9 +1089,8 @@ footer .wrap{max-width:680px}
           <span class="chev" aria-hidden="true">+</span>
         </button>
         <div class="tile-body"><div class="prompts">
-          <div class="prompt"><p>Give me a plain-language summary of what the research says about [topic in your current engagement]. Include where researchers disagree.</p><button class="copybtn">Copy</button></div>
-          <div class="prompt"><p>I&rsquo;m meeting with a district about [initiative]. Brief me like a smart colleague would: key concepts, common pitfalls, and three questions I should ask them.</p><button class="copybtn">Copy</button></div>
-          <div class="prompt"><p>Explain [education policy or framework] to me at three levels: one sentence, one paragraph, and one page.</p><button class="copybtn">Copy</button></div>
+          <div class="prompt featured"><p>I am preparing for a consulting engagement about [topic/initiative] with [district/school/team type]. Give me a practical research and field brief for an education consultant. Include: 1. the plain-language version of what this is, 2. what the strongest evidence or expert consensus seems to say, 3. where the evidence is mixed or contested, 4. common implementation mistakes in schools or districts, 5. questions I should ask leaders before recommending anything, 6. what data or artifacts I should request, and 7. a short list of claims I must verify before using them in a client deliverable. Do not invent citations. If you mention a source, tell me exactly what I should verify and where to look.</p><button class="copybtn">Copy</button></div>
+          <p class="tile-note">Best for: getting oriented before a call, proposal, site visit, or unfamiliar initiative. Keep it to public topics or generic context.</p>
         </div></div>
       </div>
 
@@ -987,34 +1100,30 @@ footer .wrap{max-width:680px}
           <span class="chev" aria-hidden="true">+</span>
         </button>
         <div class="tile-body"><div class="prompts">
-          <div class="prompt"><p>Here&rsquo;s my plan: [describe it]. Don&rsquo;t tell me it&rsquo;s good. Tell me the three biggest assumptions I&rsquo;m making and what happens if each one is wrong.</p><button class="copybtn">Copy</button></div>
-          <div class="prompt"><p>I need to have a hard conversation with [role, no names] about [issue]. Role-play it with me. Play them as skeptical but reasonable.</p><button class="copybtn">Copy</button></div>
-          <div class="prompt"><p>Steelman the opposite of my position: [your position]. Make the strongest honest case against it, then tell me which counterarguments deserve the most weight.</p><button class="copybtn">Copy</button></div>
+          <div class="prompt featured"><p>I want you to be a rigorous thought partner, not a cheerleader. I am working on [meeting/session/recommendation/challenge]. Here is the non-confidential context: [paste context]. Here is my current plan or instinct: [paste plan]. Pressure-test it in five passes: 1. name the assumptions I am making, 2. identify where this could fail with a skeptical or overwhelmed education audience, 3. steelman the strongest argument against my approach, 4. suggest three better or more nuanced options, and 5. give me a revised version I could actually use. Be direct, specific, and grounded in how schools and districts really operate.</p><button class="copybtn">Copy</button></div>
+          <p class="tile-note">Best for: refining agendas, recommendations, coaching plans, meeting strategy, or a message you need to land carefully.</p>
         </div></div>
       </div>
 
       <div class="tile reveal">
         <button class="tile-head" aria-expanded="false">
-          <span class="th-text"><strong>Chief of Staff</strong><span>What&rsquo;s the task you keep putting off because it&rsquo;s mechanical and tedious?</span></span>
+          <span class="th-text"><strong>Productivity Partner</strong><span>What tiny system would make your week easier?</span></span>
           <span class="chev" aria-hidden="true">+</span>
         </button>
         <div class="tile-body"><div class="prompts">
-          <div class="prompt"><p>Here are my rough notes from today&rsquo;s meeting: [paste, no confidential details]. In one pass, produce all of it: a clean summary, a client-ready follow-up email, an action item list with owners and deadlines, and a draft agenda for the next meeting. I&rsquo;ll review before anything goes out.</p><button class="copybtn">Copy</button></div>
-          <div class="prompt"><p>Act as my Monday morning chief of staff. Here&rsquo;s everything on my plate this week: [list]. Brief me: top three priorities, what each meeting needs from me, what to batch, and what to decline. Then turn this into a reusable prompt I can paste every Monday.</p><button class="copybtn">Copy</button></div>
-          <div class="prompt"><p>Build me a coffee shop themed interactive to-do list as a single HTML file. My tasks are orders on the menu: adding a task places an order, finishing one stamps the cup. Warm cafe colors, a little personality, and it should work in any browser.</p><button class="copybtn">Copy</button></div>
-          <p class="tile-note">These all work in the regular Claude web app. The full version, where Claude actually reads your calendar and drafts in your inbox, is what Claude Desktop unlocks.</p>
+          <div class="prompt featured"><p>Build me a coffee shop themed interactive to-do list as a single HTML file that works in any browser. The user is an education consultant managing meetings, deliverables, follow-ups, and deep work. Use the metaphor of a cafe: adding a task places an order, choosing a category assigns it to a station, completing a task stamps the cup, and finishing the day closes out the register. Include: task name, category, priority, due date, notes, filter by category/status, progress summary, and local browser storage so tasks stay after refresh. Make it polished, warm, and professional rather than childish. Use cafe colors, small delightful microcopy, and clear empty states. Keep all code in one self-contained HTML file with CSS and JavaScript included. Do not use external libraries.</p><button class="copybtn">Copy</button></div>
+          <p class="tile-note">Best for: experiencing AI as a builder without using client data. Start with fictional tasks, then adapt the tool once you trust the workflow.</p>
         </div></div>
       </div>
 
       <div class="tile reveal">
         <button class="tile-head" aria-expanded="false">
-          <span class="th-text"><strong>Creator</strong><span>What&rsquo;s something you wish existed but don&rsquo;t have time to build?</span></span>
+          <span class="th-text"><strong>Creator</strong><span>What concept would be stronger as something people can click through?</span></span>
           <span class="chev" aria-hidden="true">+</span>
         </button>
         <div class="tile-body"><div class="prompts">
-          <div class="prompt"><p>Build me a one-page interactive HTML resource that explains [concept] to [audience]. Clean, professional, works as a single file I can share as a link.</p><button class="copybtn">Copy</button></div>
-          <div class="prompt"><p>Turn this outline into a polished facilitation guide: [paste outline]. Include timing, talking points, and discussion questions for each segment.</p><button class="copybtn">Copy</button></div>
-          <div class="prompt"><p>Here&rsquo;s anonymized data from a project: [paste]. Build an interactive dashboard with a summary view, a detail view, and a short narrative of the three biggest patterns.</p><button class="copybtn">Copy</button></div>
+          <div class="prompt featured"><p>Build a polished one-page interactive HTML resource for school and district literacy leaders about the shift from teaching isolated comprehension skills to building comprehension through content knowledge, vocabulary, coherent text sets, text-dependent questions, and writing about what students read. Use this article as the core reference: https://www.goyen.io/blog/the-shift-from-skills-to-content. The resource should explain the old pattern, where teachers choose a skill like inferring, schema, questioning, visualizing, or determining importance and practice it across unrelated texts, then contrast it with a stronger knowledge-building approach where units build background knowledge, teach academic and domain vocabulary, attend to text structure, ask text-dependent questions, and have students speak and write about the content. Make it practical for education consultants to share with leaders: include a short opening explanation, a side-by-side comparison, an interactive classroom-practice sorter, a mini lesson-redesign tool, a discussion guide for PLCs, and a closing checklist leaders can use during curriculum walkthroughs. Keep the tone clear, credible, and non-shaming: the message is not that teachers were careless, but that the field is learning more about how comprehension works. Use accessible colors, mobile-friendly layout, strong visual hierarchy, and no external libraries. Keep everything in one self-contained HTML file with CSS and JavaScript included. Do not overclaim beyond the source; if you add research context, mark it as something to verify before using in a client-facing deliverable.</p><button class="copybtn">Copy</button></div>
+          <p class="tile-note">Best for: turning a literacy best-practice shift into a leader-facing tool that makes the instructional implications concrete. This is a demonstration of capability, not a client-ready source base. A version for client use should draw on multiple credible sources, be checked against your organization&rsquo;s point of view, and go through several rounds of expert review and iteration.</p>
         </div></div>
       </div>
     </div>
@@ -1026,6 +1135,7 @@ footer .wrap{max-width:680px}
     <p>This site was built with Claude, using the same workflow described in the Creator use case above. The interactive walkthrough demo reflects a real TNTP consulting workflow with fictional data. Model and product details current as of June 2026; in this field, check the date on everything, including this page.</p>
   </div>
 </footer>
+<div id="copy-status" aria-live="polite" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden"></div>
 
 <script>
 (function(){
@@ -1190,13 +1300,13 @@ footer .wrap{max-width:680px}
     es.forEach(function(e){
       if(e.isIntersecting && !counted){
         counted=true;
-        if(prefersReduced){ sc.textContent='149,000'; return; }
-        var start=null, dur=2200, target=149000;
+        if(prefersReduced){ sc.textContent='378,000+'; return; }
+        var start=null, dur=2200, target=378000;
         function step(t){
           if(!start)start=t;
           var k=Math.min((t-start)/dur,1);
           var eased=1-Math.pow(1-k,3);
-          sc.textContent=Math.floor(eased*target).toLocaleString('en-US');
+          sc.textContent=Math.floor(eased*target).toLocaleString('en-US')+(k===1?'+':'');
           if(k<1)requestAnimationFrame(step);
         }
         requestAnimationFrame(step);
@@ -1264,17 +1374,17 @@ footer .wrap{max-width:680px}
       var cols=['Culture','CA 1','CA 2','CA 3'];
       var set=rooms.filter(function(r){return band==='all'||r[1]===band;});
       if(sortCol>=0){set=set.slice().sort(function(a,b){return (a[sortCol+2]-b[sortCol+2])*sortDir;});}
-      var html='<button class="hm-h hm-sort'+(sortCol<0?' active':'')+'" data-col="-1" title="Reset to visit order">Rm</button>';
+      var html='<button class="hm-h hm-sort'+(sortCol<0?' active':'')+'" data-col="-1" title="Reset to visit order" aria-label="Reset classroom order">Rm</button>';
       for(var i=0;i<4;i++){
         var act=sortCol===i;
-        html+='<button class="hm-h hm-sort'+(act?' active':'')+'" data-col="'+i+'" title="Sort by '+cols[i]+'">'+cols[i]+(act?(sortDir<0?' \u25BE':' \u25B4'):'')+'</button>';
+        html+='<button class="hm-h hm-sort'+(act?' active':'')+'" data-col="'+i+'" title="Sort by '+cols[i]+'" aria-label="Sort by '+cols[i]+'">'+cols[i]+(act?(sortDir<0?' \u25BE':' \u25B4'):'')+'</button>';
       }
       set.forEach(function(r){
         var star=r[0]===BRIGHT;
         html+='<div class="hm-rl"><b>Rm '+r[0]+'</b></div>';
         for(var i=0;i<4;i++){
           var s=r[i+2];
-          html+='<div class="hm-cell" style="background:'+heatColor(s)+'" title="Room '+r[0]+' \u00b7 '+cols[i]+': '+s.toFixed(1)+'">'+s.toFixed(1)+(star&&i===2?' \u2605':'')+'</div>';
+          html+='<div class="hm-cell" style="background:'+heatColor(s)+'" title="Room '+r[0]+' \u00b7 '+cols[i]+': '+s.toFixed(1)+'" aria-label="Room '+r[0]+', '+cols[i]+': '+s.toFixed(1)+(star&&i===2?', bright spot':'')+'">'+s.toFixed(1)+(star&&i===2?' \u2605':'')+'</div>';
         }
       });
       hm.innerHTML=html;
@@ -1295,14 +1405,14 @@ footer .wrap{max-width:680px}
     }
     document.querySelectorAll('.vt-btn').forEach(function(b){
       b.addEventListener('click',function(){
-        document.querySelectorAll('.vt-btn').forEach(function(x){x.classList.remove('active');});
-        b.classList.add('active');view=b.dataset.view;render();
+        document.querySelectorAll('.vt-btn').forEach(function(x){x.classList.remove('active');x.setAttribute('aria-pressed','false');});
+        b.classList.add('active');b.setAttribute('aria-pressed','true');view=b.dataset.view;render();
       });
     });
     document.querySelectorAll('.room-btn').forEach(function(b){
       b.addEventListener('click',function(){
-        document.querySelectorAll('.room-btn').forEach(function(x){x.classList.remove('active');});
-        b.classList.add('active');band=b.dataset.room;render();
+        document.querySelectorAll('.room-btn').forEach(function(x){x.classList.remove('active');x.setAttribute('aria-pressed','false');});
+        b.classList.add('active');b.setAttribute('aria-pressed','true');band=b.dataset.room;render();
       });
     });
     render();
@@ -1341,7 +1451,12 @@ footer .wrap{max-width:680px}
   document.querySelectorAll('.copybtn').forEach(function(btn){
     btn.addEventListener('click',function(){
       var text=btn.parentElement.querySelector('p').textContent;
-      function done(){ btn.textContent='Copied'; btn.classList.add('copied'); setTimeout(function(){btn.textContent='Copy';btn.classList.remove('copied');},1800); }
+      function done(){
+        var status=document.getElementById('copy-status');
+        btn.textContent='Copied'; btn.classList.add('copied');
+        if(status)status.textContent='Prompt copied.';
+        setTimeout(function(){btn.textContent='Copy';btn.classList.remove('copied');if(status)status.textContent='';},1800);
+      }
       if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done).catch(function(){fallback();}); }
       else fallback();
       function fallback(){
